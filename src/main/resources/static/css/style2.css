@@ -1,0 +1,26 @@
+.header {
+    background: #3f444a;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 40px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.search input {
+    width: 300px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: none;
+}
+
+.layout {
+    display: flex;
+    gap: 40px;
+    padding: 40px;
+}

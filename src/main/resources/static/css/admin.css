@@ -1,0 +1,360 @@
+/* ================= RESET ДЛЯ АДМИНКИ ================= */
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f3f3;
+}
+
+/* ================= HEADER ================= */
+
+.admin-header {
+    background: #3f454b;
+    color: white;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.admin-header .logout {
+    cursor: pointer;
+}
+
+/* ================= LAYOUT ================= */
+
+.admin-layout {
+    display: flex;
+    gap: 40px;
+    padding: 40px 50px;
+    align-items: flex-start;
+}
+
+/* ================= SIDEBAR ================= */
+
+.admin-sidebar {
+    width: 300px;
+    background: #e9e9e9;
+    border-radius: 25px;
+    padding: 30px;
+}
+
+.admin-sidebar h3 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 20px;
+}
+
+.admin-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.admin-sidebar li {
+    margin-bottom: 18px;
+}
+
+.admin-sidebar a {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    display: block;
+}
+
+.admin-sidebar a:hover {
+    color: #3f454b;
+}
+
+.admin-sidebar li.active a {
+    font-weight: bold;
+}
+
+/* ================= CONTENT ================= */
+
+.admin-content {
+    flex: 1;
+}
+
+.admin-content h1 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 30px;
+}
+
+/* ================= SEARCH ================= */
+
+.search-user {
+    display: flex;
+    margin-bottom: 35px;
+}
+
+.search-user input {
+    width: 500px;
+    padding: 14px 20px;
+    border-radius: 40px 0 0 40px;
+    border: none;
+    background: #dcdcdc;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-user button {
+    padding: 14px 30px;
+    border-radius: 0 40px 40px 0;
+    border: none;
+    background: #3f454b;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* ================= TABLE ================= */
+
+.users-table {
+    background: #f3f3f3;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #cfcfcf;
+}
+
+.user-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 1fr 2fr;
+    align-items: center;
+    padding: 22px 25px;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 16px;
+}
+
+.user-row:last-child {
+    border-bottom: none;
+}
+
+.user-row.header {
+    background: #3f454b;
+    font-weight: bold;
+}
+
+/* ================= ACTION BUTTONS ================= */
+
+.actions {
+    display: flex;
+    gap: 15px;
+}
+
+/* Кнопки */
+
+.btn-red {
+    background: #ff1a1a;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-green {
+    background: #0a9e0a;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-yellow {
+    background: #c7b900;
+    color: black;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Hover эффекты */
+
+.btn-red:hover {
+    background: #cc0000;
+}
+
+.btn-green:hover {
+    background: #087d08;
+}
+
+.btn-yellow:hover {
+    background: #a59a00;
+}
+
+/* ================= MODERATION PAGE ================= */
+
+.moderation-card {
+    background: #efefef;
+    border-radius: 25px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    max-width: 1100px;
+    box-shadow: 0 0 0 1px #dcdcdc;
+}
+
+.moderation-card img {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.moderation-info {
+    flex: 1;
+}
+
+.moderation-info h2 {
+    margin: 0 0 10px 0;
+    font-size: 26px;
+}
+
+.moderation-info .price {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.moderation-info p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.moderation-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.moderation-actions button {
+    width: 180px;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* ================= CATEGORY PAGE ================= */
+
+.category-add {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.category-add input {
+    width: 400px;
+    padding: 14px 20px;
+    border-radius: 40px 0 0 40px;
+    border: none;
+    background: #dcdcdc;
+    font-size: 16px;
+    outline: none;
+}
+
+.category-add button {
+    padding: 14px 30px;
+    border-radius: 0 40px 40px 0;
+    border: none;
+    background: #3f454b;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Блок с категориями */
+
+.categories-box {
+    max-width: 800px;
+}
+
+.categories-title {
+    background: #e9e9e9;
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+    border: 1px solid #bfbfbf;
+}
+
+.category-row {
+    background: #efefef;
+    padding: 18px 25px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    box-shadow: 0 0 0 1px #dcdcdc;
+}
+
+.category-row span {
+    font-size: 18px;
+}
+
+.category-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* ================= REPORT PAGE ================= */
+
+.report-container {
+    margin-top: 20px;
+    max-width: 500px;
+}
+
+.report-field {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.report-field label {
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.report-field input {
+    width: 220px;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: none;
+    background: #e6e6e6;
+    font-size: 16px;
+}
+
+.report-result-title {
+    margin-top: 15px;
+    background: #e6e6e6;
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #bfbfbf;
+}
+
+.report-result-value {
+    margin-top: 8px;
+    background: #f0f0f0;
+    padding: 14px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.report-btn {
+    margin-top: 20px;
+    padding: 12px 25px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}

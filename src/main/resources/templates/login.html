@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">
+        <a href="/">Доска объявлений</a>
+    </div>
+</header>
+
+<div class="login-page">
+    <div class="login-card">
+        <h2>Вход в аккаунт</h2>
+
+        <form th:action="@{/login}" method="post">
+            <input type="text" name="username" placeholder="Введите логин" required>
+            <input type="password" name="password" placeholder="Введите пароль" required>
+
+            <!-- Сообщение об ошибке -->
+            <div th:if="${param.error}" style="color: red; margin-bottom: 10px;">
+                Неверный логин или пароль
+            </div>
+
+            <!-- Сообщение о выходе -->
+            <div th:if="${param.logout}" style="color: green; margin-bottom: 10px;">
+                Вы вышли из системы
+            </div>
+
+            <button type="submit" class="btn-dark full-btn">Войти</button>
+
+            <button type="button" class="register-btn">
+                <a href="/register" class="register-link">Регистрация</a>
+            </button>
+        </form>
+    </div>
+</div>
+
+</body>
+
+</html>

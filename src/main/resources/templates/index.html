@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Доска объявлений</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">Доска объявлений</div>
+
+    <div class="search">
+        <form th:action="@{/search-by-name}" method="get" class="search-form">
+            <input type="text" name="query" th:value="${searchQuery}" placeholder="Поиск объявлений">
+            <button type="submit" class="btn-dark">Найти</button>
+        </form>
+    </div>
+
+    <div class="login">
+        <a th:href="@{/login}" href="/login" class="profile-link">Вход</a>
+    </div>
+</header>
+
+<div class="layout">
+
+    <!-- ФИЛЬТРЫ -->
+    <aside class="filters-wrapper">
+        <div class="filters">
+            <h3>Фильтры</h3>
+
+            <!-- ДОБАВЛЕНА ФОРМА -->
+            <form id="filterForm" action="/filter" method="get">
+
+                <label>Цена</label>
+                <div class="price-row">
+                    <input type="number" name="priceFrom" id="priceFrom" th:value="${priceFrom}" placeholder="От">
+                    <input type="number" name="priceTo" id="priceTo" th:value="${priceTo}" placeholder="До">
+                </div>
+
+                <label>Регион</label>
+                <select name="region" id="regionFilter">
+                    <option value="">Все регионы</option>
+                    <option th:each="region : ${regions}"
+                            th:value="${region}"
+                            th:text="${region}"
+                            th:selected="${region == selectedRegion}"></option>
+                </select>
+
+                <label>Категория</label>
+                <select name="category" id="categoryFilter">
+                    <option value="">Все категории</option>
+                    <option th:each="category : ${categories}"
+                            th:value="${category}"
+                            th:text="${category}"
+                            th:selected="${category == selectedCategory}"></option>
+                </select>
+
+                <label>Состояние</label>
+                <div class="condition-row">
+                    <button type="button" class="condition-btn" data-value="Новое"
+                            th:classappend="${selectedCondition == 'Новое'} ? 'active'">Новое</button>
+                    <button type="button" class="condition-btn" data-value="Б/у"
+                            th:classappend="${selectedCondition == 'Б/у'} ? 'active'">Б/у</button>
+                </div>
+
+                <!-- Скрытое поле для состояния -->
+                <input type="hidden" name="condition" id="conditionInput" value="">
+
+                <button type="submit" class="btn-green full">
+                    Применить фильтр
+                </button>
+
+            </form>
+        </div>
+    </aside>
+
+    <!-- ТОВАРЫ -->
+    <main class="products-wrapper">
+        <h2>Все объявления</h2>
+
+        <div id="productsList">
+            <div class="product-card" th:each="product : ${products}"
+                 th:data-price="${product.price}"
+                 th:data-region="${product.region}"
+                 th:data-category="${product.category}"
+                 th:data-condition="${product.condition}">
+
+                <img th:src="@{${product.imagePath}}" th:alt="${product.title}">
+
+                <div class="product-info">
+                    <h3 th:text="${product.title}">Название товара</h3>
+                    <p class="price" th:text="${product.price} + ' р'">200 р</p>
+                    <p th:text="${product.condition}">Б/у</p>
+                    <p th:text="${product.region}">Орша</p>
+                </div>
+
+                <div class="product-buttons">
+                    <a th:href="@{'/product/' + ${product.id}}" class="btn-green">Подробнее</a>
+                    <button type="button" class="btn-light show-phone-btn" th:data-phone="${product.phone}">Показать телефон</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Сообщение, если товаров нет -->
+        <div th:if="${products.empty}" class="empty-message">
+            <p>Товаров не найдено</p>
+        </div>
+    </main>
+</div>
+
+<!-- Модальное окно -->
+<div class="modal-overlay" id="modalOverlay"></div>
+
+<div class="modal" id="callModal">
+    <div class="modal-card">
+        <h2 id="modalUserName">Продавец</h2>
+        <div class="phone-number" id="modalPhoneNumber">+375 (29) 999-99-99</div>
+        <p>Пожалуйста, скажите продавцу, что звоните по объявлению</p>
+        <button type="button" class="btn-dark full-btn" id="closeCallModalBtn">
+            Закрыть
+        </button>
+    </div>
+</div>
+
+<script th:src="@{/js/script.js}" src="/js/script.js"></script>
+<script th:src="@{/js/modals.js}" src="/js/modals.js"></script>
+
+</body>
+
+</html>

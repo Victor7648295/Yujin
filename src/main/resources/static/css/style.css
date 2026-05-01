@@ -1,0 +1,816 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f2f2f2;
+}
+
+/* HEADER */
+
+.header {
+    background: #3f444a;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 40px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logo a {
+    color: white;
+    text-decoration: none;
+}
+
+.search input {
+    width: 300px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: none;
+}
+
+.layout {
+    display: flex;
+    gap: 40px;
+    padding: 40px;
+}
+
+/* FILTERS */
+
+.filters-wrapper {
+    width: 280px;
+}
+
+.filters {
+    background: white;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.filters label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.price-row {
+    display: flex;
+    gap: 10px;
+}
+
+.filters input,
+.filters select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.condition-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.condition-btn {
+    flex: 1;
+    padding: 8px;
+    border-radius: 20px;
+    border: none;
+    background: #e5e5e5;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.condition-btn:hover {
+    background: #d5d5d5;
+}
+
+.condition-btn.active {
+    background: #3f444a;
+    color: white;
+}
+
+/* ADS */
+
+.ads-wrapper {
+    flex: 1;
+}
+
+.ads-wrapper h2 {
+    margin-bottom: 25px;
+}
+
+.ad-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.ad-card img {
+    width: 150px;
+    border-radius: 15px;
+}
+
+.ad-info {
+    flex: 1;
+    margin-left: 25px;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.ad-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* BUTTONS */
+
+button {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-green {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    background: #0a8a0a;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 10px;
+}
+
+.btn-green:hover {
+    background: #0c9f0c;
+    transform: translateY(-2px);
+}
+
+.btn-light {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 10px 25px;
+    border-radius: 10px;
+}
+
+.btn-light:hover {
+    background: #e6e6e6;
+    transform: translateY(-2px);
+}
+
+.btn-dark {
+    background: #555;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+}
+
+.btn-dark:hover {
+    background: #777;
+}
+
+.full {
+    width: 100%;
+    margin-top: 25px;
+}
+
+
+/* =========================
+   AD PAGE
+========================= */
+
+.ad-page {
+    padding: 50px 80px;
+}
+
+.ad-main {
+    display: flex;
+    gap: 60px;
+    margin-bottom: 50px;
+}
+
+.ad-image img {
+    width: 450px;
+    border-radius: 15px;
+}
+
+.ad-details {
+    flex: 1;
+}
+
+.ad-price {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.ad-details h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.ad-category {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.ad-location {
+    color: #555;
+    margin-bottom: 40px;
+}
+
+.seller p {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.call-btn {
+    padding: 12px 40px;
+    font-size: 16px;
+}
+
+.ad-description h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.ad-description p {
+    font-size: 18px;
+    max-width: 800px;
+    line-height: 1.6;
+}
+
+/* HEADER ACTIONS */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.profile-link {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header-actions .profile-link:hover {
+    opacity: 0.7;
+}
+
+.header-actions span {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.header-actions span:hover {
+    opacity: 0.7;
+}
+
+
+/* =========================
+   LOGIN PAGE
+========================= */
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 70px);
+    background: #f2f2f2;
+}
+
+.login-card {
+    width: 450px;
+    background: #f6f6f6;
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-card input {
+    padding: 14px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: none;
+    background: #eaeaea;
+    font-size: 16px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.login-card input:focus {
+    background: #ffffff;
+    box-shadow: 0 0 0 2px #3f444a33;
+}
+
+/* Кнопка Войти */
+
+.full-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+/* Кнопка Регистрация */
+
+.register-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.register-link {
+    color: black;
+    text-decoration: none;
+}
+
+.register-btn:hover {
+    background: #e6e6e6;
+}
+
+
+/* =========================
+   create-ad
+========================= */
+
+.form-page {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.form-card {
+    background: #f3f3f3;
+    padding: 2px 40px;
+    border-radius: 15px;
+    width: 450px;
+}
+
+.form-card h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.form-card label {
+    display: block;
+    margin: 12px 0 5px;
+    font-weight: 600;
+}
+
+.form-card input,
+.form-card select,
+.form-card textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.form-card textarea {
+    resize: none;
+    height: 100px;
+}
+
+.photo-preview {
+    width: 100%;
+    margin-top: 10px;
+    display: none;
+    border-radius: 10px;
+}
+
+.condition-switch {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.condition-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.condition-btn:hover {
+    background: #ddd;
+}
+
+.condition-btn.active {
+    background: #3c4147;
+    color: white;
+    border: none;
+}
+
+
+/* =========================
+   my-ads
+========================= */
+/* Общий контейнер */
+.container {
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+/* Заголовки секций */
+.section-title {
+    margin: 30px 0 20px;
+    font-size: 24px;
+}
+
+/* Карточка объявления */
+.ad-card {
+    display: flex;
+    align-items: center;
+    background: #f2f2f2;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    gap: 25px;
+}
+
+/* Фото */
+.ad-card img {
+    width: 180px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+/* Информация */
+.ad-info {
+    flex: 1;
+}
+
+.ad-info h3 {
+    margin: 0 0 10px;
+    font-size: 22px;
+}
+
+.price {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.meta {
+    color: #444;
+    font-size: 14px;
+}
+
+/* Кнопки справа */
+.ad-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Красная кнопка */
+.btn-red {
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-red:hover {
+    background: darkred;
+}
+
+
+/* =========================
+   edit-profile
+========================= */
+
+/* Страница профиля */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+}
+
+.profile-card {
+    width: 450px;
+    background: #f2f2f2;
+    padding: 35px 40px;
+    border-radius: 20px;
+}
+
+.profile-card h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.profile-card label {
+    display: block;
+    margin: 15px 0 6px;
+    font-weight: 600;
+}
+
+.profile-card input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.full-btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    font-size: 16px;
+}
+
+/* =========================
+   МОДУЛЬНЫЕ ОКНА
+========================= */
+
+/* ===================== */
+/*        MODALS         */
+/* ===================== */
+
+/* Затемнение фона */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    z-index: 1000;
+}
+
+/* Общий контейнер модалки */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+}
+
+/* Карточка модалки */
+.modal-card {
+    background: #f2f2f2;
+    border-radius: 25px;
+    width: 420px;
+    text-align: center;
+    animation: modalFade 0.2s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Анимация появления */
+@keyframes modalFade {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ===================== */
+/*    МОДАЛКА ЗВОНКА    */
+/* ===================== */
+
+#callModal .modal-card {
+    padding: 40px 50px;
+}
+
+#callModal h2 {
+    margin-bottom: 20px;
+}
+
+.phone-number {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+#callModal p {
+    margin-bottom: 25px;
+    color: #444;
+}
+
+/* ===================== */
+/*    МОДАЛКА ВЫХОДА    */
+/* ===================== */
+
+#logoutModal .modal-card {
+    width: 380px;
+    padding: 35px 0 0 0;
+    overflow: hidden;
+}
+
+#logoutModal h2 {
+    padding: 0 30px 25px 30px;
+    margin: 0;
+}
+
+/* Блок кнопок */
+.logout-buttons {
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+/* Общие стили кнопок */
+.logout-buttons button {
+    flex: 1;
+    padding: 16px 0;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+/* Левая кнопка (Выйти) */
+.logout-buttons .btn-red {
+    background: #c62828;
+    color: #fff;
+    border-radius: 0 0 0 20px;
+}
+
+.logout-buttons .btn-red:hover {
+    background: #a61e1e;
+}
+
+/* Правая кнопка (Отмена) */
+.logout-buttons .btn-dark {
+    background: #2f3338;
+    color: #fff;
+    border-radius: 0 0 20px 0;
+}
+
+.logout-buttons .btn-dark:hover {
+    background: #444;
+}
+
+/* ========================= */
+/*        ADMIN PANEL        */
+/* ========================= */
+
+.admin-panel {
+    background: #f3f3f3;
+    border-radius: 25px;
+    padding: 25px 30px;
+    margin-top: 25px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.admin-panel h3 {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.admin-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.admin-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+/* Hover эффект */
+.admin-link:hover {
+    background: #e6e6e6;
+    padding-left: 18px;
+}
+
+/* ========================= */
+/*        ADMIN PANEL        */
+/* ========================= */
+
+.admin-panel {
+    background: #f3f3f3;
+    border-radius: 25px;
+    padding: 25px 30px;
+    margin-top: 25px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.admin-panel h3 {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.admin-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.admin-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+/* Hover эффект */
+.admin-link:hover {
+    background: #e6e6e6;
+    padding-left: 18px;
+}
+
+/* ========================= */
+/*        ADMIN PANEL        */
+/* ========================= */
+
+.admin-panel {
+    background: #f3f3f3;
+    border-radius: 25px;
+    padding: 25px 30px;
+    margin-top: 25px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.admin-panel h3 {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.admin-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.admin-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+/* Hover эффект */
+.admin-link:hover {
+    background: #e6e6e6;
+    padding-left: 18px;
+}
+
+/* Активный пункт (если нужно) */
+.admin-link.active {
+    background: #0a8f08;
+    color: white;
+}
