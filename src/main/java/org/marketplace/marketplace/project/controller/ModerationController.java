@@ -26,7 +26,7 @@ public class ModerationController {
         List<Product> pending = productService.getPendingProducts();
         model.addAttribute("products", pending);
         model.addAttribute("count", pending.size());
-        return "moderation";
+        return "admin/moderation";
     }
 
     @GetMapping("/details/{id}")

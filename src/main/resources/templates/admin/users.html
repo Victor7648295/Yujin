@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи системы</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+    <header class="admin-header">
+        <div class="logo">Доска объявлений</div>
+        <div class="logout">Выход</div>
+    </header>
+
+    <div class="admin-layout">
+
+        <!-- ЛЕВОЕ МЕНЮ -->
+        <aside class="admin-sidebar">
+            <h3>Админ-панель</h3>
+            <ul>
+                <li class="active"><a href="users.html">Пользователи системы</a></li>
+                <li><a href="/admin/moderation">Модерация объявлений</a></li>
+                <li><a href="categories.html">Управление категориями</a></li>
+                <li><a href="report.html">Отчёт по размещённым объявлениям</a></li>
+            </ul>
+        </aside>
+
+        <!-- ОСНОВНОЙ КОНТЕНТ -->
+        <main class="admin-content">
+
+            <h1>Пользователи системы</h1>
+
+            <!-- Поиск -->
+            <div class="search-user">
+                <input type="text" placeholder="Поиск пользователя по фамилии">
+                <button class="btn-dark">Найти</button>
+            </div>
+
+            <!-- Таблица -->
+            <div class="users-table">
+
+                <div class="user-row header">
+                    <div>Имя</div>
+                    <div>Фамилия</div>
+                    <div>Email</div>
+                    <div>Пароль</div>
+                    <div class="actions-column"></div>
+                </div>
+
+                <div class="user-row">
+                    <div>Иван</div>
+                    <div>Иванов</div>
+                    <div>ivanov@mail.ru</div>
+                    <div>*********</div>
+
+                    <div class="actions">
+                        <button class="btn-red">Заблокировать</button>
+                        <button class="btn-green">Разблокировать</button>
+                        <button class="btn-yellow">Редактировать</button>
+                    </div>
+                </div>
+
+                <div class="user-row">
+                    <div>Фёдор</div>
+                    <div>Костров</div>
+                    <div>kostrovF@mail.ru</div>
+                    <div>*********</div>
+
+                    <div class="actions">
+                        <button class="btn-red">Заблокировать</button>
+                        <button class="btn-green">Разблокировать</button>
+                        <button class="btn-yellow">Редактировать</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>
