@@ -1,29 +1,39 @@
 package org.marketplace.marketplace.project.config;
 
+import lombok.RequiredArgsConstructor;
+import org.marketplace.marketplace.project.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()  // В 2.7.x используется authorizeRequests() вместо authorizeHttpRequests()
-                .antMatchers("/login", "/css/**", "/js/**", "/register").permitAll()  // antMatchers вместо requestMatchers
+                .authorizeRequests()
+                .antMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                .antMatchers("/admin/**", "/categories.html", "/edit/**").permitAll()
+                .antMatchers("/create-category", "/update/**", "/delete-category/**").permitAll()
+                .antMatchers("/", "/login", "/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
+                .usernameParameter("email")  // ← ВАЖНО: используем email вместо username
                 .defaultSuccessUrl("/", true)
                 .failureUrl("/login?error=true")
                 .permitAll()
@@ -33,21 +43,23 @@ public class SecurityConfig {
                 .permitAll()
                 .and()
                 .csrf()
-                .ignoringAntMatchers("/login");  // Опционально: отключить CSRF для логина
+                .disable();
 
         return http.build();
     }
 
-    // Пример пользователей в памяти (для теста)
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("123/*---")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(user);
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder
+                .userDetailsService(customUserDetailsService)
+                .passwordEncoder(passwordEncoder());
+        return authenticationManagerBuilder.build();
+    }
 }

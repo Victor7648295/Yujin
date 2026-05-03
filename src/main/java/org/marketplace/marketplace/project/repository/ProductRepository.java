@@ -28,6 +28,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // Поиск по названию (частичное совпадение)
     List<Product> findByTitleContainingIgnoreCase(String title);
 
+    // Поиск по статусу модерации
+    List<Product> findByStatus_StatusName(String statusName);
+
     // Поиск по региону
     List<Product> findByRegion(String region);
 

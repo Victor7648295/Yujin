@@ -1,17 +1,48 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <title>Вход</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="css/style.css">
+    <style>
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #f5c6cb;
+        }
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #c3e6cb;
+        }
+        .register-btn {
+            margin-top: 10px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .register-btn:hover {
+            background-color: #5a6268;
+        }
+    </style>
 </head>
 
 <body>
 
 <header class="header">
     <div class="logo">
-        <a href="/">Доска объявлений</a>
+        <a th:href="@{/}" href="/">Доска объявлений</a>
     </div>
 </header>
 
@@ -19,24 +50,30 @@
     <div class="login-card">
         <h2>Вход в аккаунт</h2>
 
+        <!-- Сообщение об ошибке -->
+        <div th:if="${param.error}" class="error-message">
+            Неверный email или пароль
+        </div>
+
+        <!-- Сообщение о выходе -->
+        <div th:if="${param.logout}" class="success-message">
+            Вы вышли из системы
+        </div>
+
+        <!-- Сообщение об успешной регистрации -->
+        <div th:if="${param.registered}" class="success-message">
+            Регистрация прошла успешно! Войдите в систему.
+        </div>
+
         <form th:action="@{/login}" method="post">
-            <input type="text" name="username" placeholder="Введите логин" required>
+            <!-- ВАЖНО: name="email" а не "username" -->
+            <input type="email" name="email" placeholder="Введите email" required>
             <input type="password" name="password" placeholder="Введите пароль" required>
-
-            <!-- Сообщение об ошибке -->
-            <div th:if="${param.error}" style="color: red; margin-bottom: 10px;">
-                Неверный логин или пароль
-            </div>
-
-            <!-- Сообщение о выходе -->
-            <div th:if="${param.logout}" style="color: green; margin-bottom: 10px;">
-                Вы вышли из системы
-            </div>
 
             <button type="submit" class="btn-dark full-btn">Войти</button>
 
-            <button type="button" class="register-btn">
-                <a href="/register" class="register-link">Регистрация</a>
+            <button type="button" class="register-btn" onclick="location.href='/register'">
+                Регистрация
             </button>
         </form>
     </div>

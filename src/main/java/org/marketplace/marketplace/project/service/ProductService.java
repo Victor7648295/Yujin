@@ -3,7 +3,9 @@ package org.marketplace.marketplace.project.service;
 
 import lombok.RequiredArgsConstructor;
 import org.marketplace.marketplace.project.model.Product;
+import org.marketplace.marketplace.project.model.ProductStatus;
 import org.marketplace.marketplace.project.repository.ProductRepository;
+import org.marketplace.marketplace.project.repository.ProductStatusRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductStatusRepository productStatusRepository;
 
     // Получить все товары
     public List<Product> getAllProducts() {
@@ -28,6 +31,9 @@ public class ProductService {
 
     // Создать новый товар
     public Product createProduct(Product product) {
+        if (product.getStatus() == null) {
+            product.setStatus(getOrCreateStatus(ProductStatus.PENDING));
+        }
         return productRepository.save(product);
     }
 
@@ -90,5 +96,36 @@ public class ProductService {
             return new ArrayList<>();
         }
         return productRepository.searchByTitle(query);
+    }
+
+    // Объявления, ожидающие модерации
+    public List<Product> getPendingProducts() {
+        return productRepository.findByStatus_StatusName(ProductStatus.PENDING);
+    }
+
+    // Одобрить объявление
+    public boolean approveProduct(Long id) {
+        return changeStatus(id, ProductStatus.APPROVED);
+    }
+
+    // Отклонить объявление
+    public boolean rejectProduct(Long id) {
+        return changeStatus(id, ProductStatus.REJECTED);
+    }
+
+    private boolean changeStatus(Long productId, String statusName) {
+        return productRepository.findById(productId).map(product -> {
+            product.setStatus(getOrCreateStatus(statusName));
+            productRepository.save(product);
+            return true;
+        }).orElse(false);
+    }
+
+    private ProductStatus getOrCreateStatus(String statusName) {
+        return productStatusRepository.findByStatusName(statusName).orElseGet(() -> {
+            ProductStatus status = new ProductStatus();
+            status.setStatusName(statusName);
+            return productStatusRepository.save(status);
+        });
     }
 }

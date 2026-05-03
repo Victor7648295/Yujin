@@ -46,4 +46,9 @@ public class Product {
 
     @Column(name = "seller_name", length = 100)
     private String sellerName;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "status_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_products_status"))
+    private ProductStatus status;
 }
