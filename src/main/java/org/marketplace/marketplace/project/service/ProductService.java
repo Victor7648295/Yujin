@@ -100,17 +100,21 @@ public class ProductService {
     }
 
     // Обновить товар
-    public Optional<Product> updateProduct(Long id, Product updatedProduct) {
+    public Optional<Product> updateProduct(Long id, Product updatedProduct, MultipartFile photo) {
         return productRepository.findById(id).map(existing -> {
             existing.setTitle(updatedProduct.getTitle());
             existing.setPrice(updatedProduct.getPrice());
             existing.setRegion(updatedProduct.getRegion());
             existing.setCategory(updatedProduct.getCategory());
             existing.setCondition(updatedProduct.getCondition());
-            existing.setImagePath(updatedProduct.getImagePath());
             existing.setPhone(updatedProduct.getPhone());
             existing.setDescription(updatedProduct.getDescription());
             existing.setSellerName(updatedProduct.getSellerName());
+            // Меняем картинку только если загрузили новый файл
+            String savedPath = saveImage(photo);
+            if (savedPath != null) {
+                existing.setImagePath(savedPath);
+            }
             return productRepository.save(existing);
         });
     }

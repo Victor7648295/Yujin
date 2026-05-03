@@ -99,16 +99,18 @@ public class ProductController {
             model.addAttribute("product", product.get());
             model.addAttribute("regions", productService.getAllRegions());
             model.addAttribute("categories", productService.getAllCategories());
-            return "product-form";
+            return "edit-product";
         }
         return "redirect:/";
     }
 
     // Обновление товара (POST)
     @PostMapping("/product/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product) {
-        productService.updateProduct(id, product);
-        return "redirect:/product/" + id;
+    public String updateProduct(@PathVariable Long id,
+                                @ModelAttribute Product product,
+                                @RequestParam(value = "photo", required = false) MultipartFile photo) {
+        productService.updateProduct(id, product, photo);
+        return "redirect:/";
     }
 
     // Удаление товара
