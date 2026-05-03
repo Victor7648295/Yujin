@@ -128,6 +128,44 @@
 <script th:src="@{/js/script.js}" src="/js/script.js"></script>
 <script th:src="@{/js/modals.js}" src="/js/modals.js"></script>
 
+<!-- Фильтр по состоянию: запись выбранного значения в скрытое поле condition -->
+<script>
+    (function () {
+        var hidden = document.getElementById('conditionInput');
+        var buttons = document.querySelectorAll('#filterForm .condition-btn');
+        if (!hidden || !buttons.length) return;
+
+        var current = '';
+        var initiallyActive = document.querySelector('#filterForm .condition-btn.active');
+        if (initiallyActive) {
+            current = initiallyActive.getAttribute('data-value');
+        }
+        hidden.value = current;
+
+        function paint() {
+            buttons.forEach(function (b) {
+                if (b.getAttribute('data-value') === current) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+        }
+
+        // Перебиваем возможные другие обработчики классов: выполняемся последним
+        // и красим состояние сами, поэтому не зависим от того, что делал script.js.
+        buttons.forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                var val = btn.getAttribute('data-value');
+                current = (current === val) ? '' : val;
+                hidden.value = current;
+                paint();
+            });
+        });
+    })();
+</script>
+
 </body>
 
 </html>

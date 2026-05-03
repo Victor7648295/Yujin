@@ -51,4 +51,9 @@ public class Product {
     @JoinColumn(name = "status_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_products_status"))
     private ProductStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",
+            foreignKey = @ForeignKey(name = "fk_products_user"))
+    private User user;
 }

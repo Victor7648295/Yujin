@@ -24,7 +24,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                .antMatchers("/css/**", "/js/**", "/images/**", "/img/**").permitAll()
                 .antMatchers("/admin/**", "/categories.html", "/edit/**").permitAll()
                 .antMatchers("/create-category", "/update/**", "/delete-category/**").permitAll()
                 .antMatchers("/", "/login", "/register").permitAll()

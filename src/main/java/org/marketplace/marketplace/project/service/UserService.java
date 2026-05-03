@@ -7,6 +7,8 @@ import org.marketplace.marketplace.project.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -31,5 +33,32 @@ public class UserService {
         user.setIsActive(true);
 
         return userRepository.save(user);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public List<User> searchByName(String query) {
+        if (query == null || query.isBlank()) {
+            return getAllUsers();
+        }
+        return userRepository.searchByName(query.trim());
+    }
+
+    public boolean blockUser(Long id) {
+        return setActive(id, false);
+    }
+
+    public boolean unblockUser(Long id) {
+        return setActive(id, true);
+    }
+
+    private boolean setActive(Long id, boolean active) {
+        return userRepository.findById(id).map(user -> {
+            user.setIsActive(active);
+            userRepository.save(user);
+            return true;
+        }).orElse(false);
     }
 }

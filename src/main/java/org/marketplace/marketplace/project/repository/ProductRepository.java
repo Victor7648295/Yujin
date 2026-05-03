@@ -53,6 +53,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // Сложный поиск с фильтрацией (JPQL)
     @Query("SELECT p FROM Product p WHERE " +
+            "p.status.id = 2 AND " +
             "(:region IS NULL OR :region = '' OR p.region = :region) AND " +
             "(:category IS NULL OR :category = '' OR p.category = :category) AND " +
             "(:condition IS NULL OR :condition = '' OR p.condition = :condition) AND " +
@@ -80,4 +81,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // Поиск по названию
     @Query("SELECT p FROM Product p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :query, '%'))")
     List<Product> searchByTitle(@Param("query") String query);
+
+    List<Product> findByStatusId(Long statusId);
 }

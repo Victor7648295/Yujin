@@ -1,12 +1,15 @@
 package org.marketplace.marketplace.project.controller;
 
 import org.marketplace.marketplace.project.model.Product;
+import org.marketplace.marketplace.project.repository.UserRepository;
 import org.marketplace.marketplace.project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +18,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     // Главная страница - все товары
     @GetMapping("/")
@@ -63,10 +69,25 @@ public class ProductController {
         }
     }
 
+    // Форма создания объявления (GET)
+    @GetMapping("/product/create")
+    public String showCreateForm(Model model, Principal principal) {
+        model.addAttribute("product", new Product());
+        model.addAttribute("regions", productService.getAllRegions());
+        model.addAttribute("categories", productService.getAllCategories());
+        Long currentUserId = (principal == null) ? null
+                : userRepository.findByEmail(principal.getName())
+                        .map(u -> u.getId()).orElse(null);
+        model.addAttribute("currentUserId", currentUserId);
+        return "create-product";
+    }
+
     // Создание товара (POST)
     @PostMapping("/product/create")
-    public String createProduct(@ModelAttribute Product product) {
-        productService.createProduct(product);
+    public String createProduct(@ModelAttribute Product product,
+                                @RequestParam(value = "userId", required = false) Long userId,
+                                @RequestParam(value = "photo", required = false) MultipartFile photo) {
+        productService.createProduct(product, userId, photo);
         return "redirect:/";
     }
 
