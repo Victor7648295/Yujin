@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,36 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public Optional<User> getById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public boolean adminUpdate(Long id, String firstName, String lastName, String email,
+                               String role, String newPassword) {
+        return userRepository.findById(id).map(user -> {
+            if (firstName != null && !firstName.isBlank()) {
+                user.setFirstName(firstName);
+            }
+            if (lastName != null && !lastName.isBlank()) {
+                user.setLastName(lastName);
+            }
+            if (email != null && !email.isBlank() && !email.equalsIgnoreCase(user.getEmail())) {
+                if (userRepository.existsByEmail(email)) {
+                    throw new IllegalArgumentException("Email уже занят");
+                }
+                user.setEmail(email);
+            }
+            if (role != null && !role.isBlank()) {
+                user.setRole(role.toUpperCase());
+            }
+            if (newPassword != null && !newPassword.isEmpty()) {
+                user.setPassword(passwordEncoder.encode(newPassword));
+            }
+            userRepository.save(user);
+            return true;
+        }).orElse(false);
+    }
 
     public User register(RegistrationRequest request) {
         if (!request.getPassword().equals(request.getConfirmPassword())) {

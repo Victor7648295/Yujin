@@ -1,6 +1,7 @@
 package org.marketplace.marketplace.project.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.marketplace.marketplace.project.model.User;
 import org.marketplace.marketplace.project.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/users")
@@ -27,9 +30,40 @@ public class UserController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editUserForm(@PathVariable Long id, Model model) {
-        model.addAttribute("userId", id);
+    public String editUserForm(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        Optional<User> user = userService.getById(id);
+        if (user.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Пользователь не найден");
+            return "redirect:/admin/users";
+        }
+        model.addAttribute("user", user.get());
         return "admin/user-edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateUser(@PathVariable Long id,
+                             @RequestParam String firstName,
+                             @RequestParam String lastName,
+                             @RequestParam String email,
+                             @RequestParam String role,
+                             @RequestParam(value = "newPassword", required = false) String newPassword,
+                             @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
+                             RedirectAttributes redirectAttributes) {
+        if (newPassword != null && !newPassword.isEmpty()
+                && !newPassword.equals(confirmPassword)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Пароли не совпадают");
+            return "redirect:/admin/users/edit/" + id;
+        }
+        try {
+            if (userService.adminUpdate(id, firstName, lastName, email, role, newPassword)) {
+                redirectAttributes.addFlashAttribute("successMessage", "Пользователь обновлён");
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "Пользователь не найден");
+            }
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/admin/users";
     }
 
     @PostMapping("/block/{id}")

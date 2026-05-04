@@ -36,7 +36,7 @@ public class ModerationController {
             return "redirect:/admin/moderation";
         }
         model.addAttribute("product", product.get());
-        return "product-detail";
+        return "product-page";
     }
 
     @PostMapping("/approve/{id}")
