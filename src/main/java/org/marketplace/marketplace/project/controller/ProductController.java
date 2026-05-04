@@ -57,18 +57,6 @@ public class ProductController {
         return "index";
     }
 
-    // Страница детального просмотра товара
-    @GetMapping("/product/{id}")
-    public String productDetail(@PathVariable Long id, Model model) {
-        Optional<Product> product = productService.getProductById(id);
-        if (product.isPresent()) {
-            model.addAttribute("product", product.get());
-            return "product-detail";
-        } else {
-            return "redirect:/";
-        }
-    }
-
     // Форма создания объявления (GET)
     @GetMapping("/product/create")
     public String showCreateForm(Model model, Principal principal) {
