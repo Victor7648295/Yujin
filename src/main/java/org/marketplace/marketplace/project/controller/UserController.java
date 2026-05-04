@@ -14,6 +14,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
+/**
+ * Админка пользователей (/admin/users): список с поиском по имени,
+ * редактирование данных и роли, смена пароля, блокировка и
+ * разблокировка учётных записей.
+ */
 @Controller
 @RequestMapping("/admin/users")
 @RequiredArgsConstructor

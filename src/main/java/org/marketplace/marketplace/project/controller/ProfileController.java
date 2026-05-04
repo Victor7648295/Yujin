@@ -15,6 +15,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
+/**
+ * Самостоятельное редактирование профиля текущим пользователем
+ * (/profile/edit): загрузка формы и обработка обновлений; при смене
+ * email сессия принудительно разлогинивается, чтобы её обновить.
+ */
 @Controller
 @RequestMapping("/profile")
 @RequiredArgsConstructor
@@ -49,8 +54,6 @@ public class ProfileController {
         try {
             String newEmail = userService.updateProfile(principal.getName(), profile);
             redirectAttributes.addFlashAttribute("successMessage", "Профиль обновлён");
-            // Если поменяли email — текущая сессия привязана к старому,
-            // безопаснее разлогинить, чтобы пользователь зашёл по новому email.
             if (!newEmail.equalsIgnoreCase(principal.getName())) {
                 return "redirect:/logout";
             }

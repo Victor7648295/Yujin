@@ -11,6 +11,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Бизнес-логика по пользователям: регистрация, поиск и листинг,
+ * блокировка/разблокировка, обновление профиля самим пользователем
+ * и админское редактирование (включая смену роли и сброс пароля).
+ * Шифрует пароли через {@link PasswordEncoder} и проверяет уникальность email.
+ */
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -94,8 +100,6 @@ public class UserService {
         }).orElse(false);
     }
 
-    // Возвращает актуальный email пользователя после обновления профиля
-    // (нужен контроллеру, чтобы синхронизировать сессию).
     public String updateProfile(String currentEmail, ProfileUpdateRequest request) {
         User user = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));

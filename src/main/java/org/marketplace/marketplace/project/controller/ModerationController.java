@@ -14,6 +14,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Админская модерация объявлений (/admin/moderation): показывает
+ * объявления со статусом PENDING, отдаёт страницу детализации и
+ * переводит объявление в APPROVED либо REJECTED.
+ */
 @Controller
 @RequestMapping("/admin/moderation")
 @RequiredArgsConstructor

@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.security.Principal;
 import java.util.Collections;
 
+/**
+ * Личный кабинет пользователя (/my-products): показывает его
+ * объявления, разделённые на одобренные (APPROVED) и ожидающие
+ * модерацию (PENDING).
+ */
 @Controller
 @RequiredArgsConstructor
 public class MyProductsController {

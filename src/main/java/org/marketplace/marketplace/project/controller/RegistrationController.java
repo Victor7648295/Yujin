@@ -14,6 +14,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+/**
+ * Регистрация нового пользователя: показывает форму, валидирует ввод
+ * (включая совпадение паролей), создаёт учётную запись через
+ * {@link UserService} и переадресует на /login с успешным флэш-сообщением.
+ */
 @Controller
 @RequestMapping("/register")
 @RequiredArgsConstructor
@@ -39,9 +44,7 @@ public class RegistrationController {
             bindingResult.rejectValue("confirmPassword", "password.mismatch", "Пароли не совпадают");
         }
 
-        // Если есть ошибки валидации или пароли не совпадают
         if (bindingResult.hasErrors()) {
-            // ✅ Добавляем объект обратно в модель (Thymeleaf сам подхватит bindingResult)
             model.addAttribute("registrationRequest", request);
             return "register";
         }

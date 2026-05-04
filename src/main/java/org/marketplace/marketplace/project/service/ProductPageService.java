@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Сервис страницы детального просмотра объявления: отдаёт продукт
+ * по идентификатору контроллеру публичной страницы /product/{id}.
+ */
 @Service
 @RequiredArgsConstructor
 public class ProductPageService {

@@ -26,6 +26,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Бизнес-логика по объявлениям: CRUD, фильтрация и поиск, обработка
+ * фотографий (масштабирование и обрезка под скруглённый квадрат), а также
+ * управление статусом модерации (PENDING / APPROVED / REJECTED).
+ */
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -36,21 +41,16 @@ public class ProductService {
 
     private static final int IMAGE_SIZE = 200;
     private static final int CORNER_RADIUS = 40;
-    // Каталог для загруженных изображений (dev: src/main/resources/static/img)
     private static final Path IMAGE_DIR = Paths.get("src", "main", "resources", "static", "img");
 
-    // Получить все товары
     public List<Product> getAllProducts() {
         return productRepository.findByStatusId(2L);
     }
 
-    // Получить товар по ID
     public Optional<Product> getProductById(Long id) {
         return productRepository.findById(id);
     }
 
-
-    // Создать новый товар
     public Product createProduct(Product product, Long userId, MultipartFile photo) {
         if (userId != null) {
             userRepository.findById(userId).ifPresent(product::setUser);
@@ -83,7 +83,6 @@ public class ProductService {
             g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            // Маска со скруглёнными углами + рисуем картинку только внутри маски
             g.setComposite(AlphaComposite.Src);
             g.fill(new RoundRectangle2D.Float(0, 0, IMAGE_SIZE, IMAGE_SIZE, CORNER_RADIUS, CORNER_RADIUS));
             g.setComposite(AlphaComposite.SrcAtop);
@@ -99,7 +98,6 @@ public class ProductService {
         }
     }
 
-    // Обновить товар
     public Optional<Product> updateProduct(Long id, Product updatedProduct, MultipartFile photo) {
         return productRepository.findById(id).map(existing -> {
             existing.setTitle(updatedProduct.getTitle());
@@ -110,7 +108,6 @@ public class ProductService {
             existing.setPhone(updatedProduct.getPhone());
             existing.setDescription(updatedProduct.getDescription());
             existing.setSellerName(updatedProduct.getSellerName());
-            // Меняем картинку только если загрузили новый файл
             String savedPath = saveImage(photo);
             if (savedPath != null) {
                 existing.setImagePath(savedPath);
@@ -119,7 +116,6 @@ public class ProductService {
         });
     }
 
-    // Удалить товар
     public boolean deleteProduct(Long id) {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
@@ -128,27 +124,22 @@ public class ProductService {
         return false;
     }
 
-    // Поиск с фильтрацией
     public List<Product> searchProducts(String region, String category,
                                         String condition, Integer priceFrom, Integer priceTo) {
         return productRepository.searchProducts(region, category, condition, priceFrom, priceTo);
     }
 
-    // Получить все регионы
     public List<String> getAllRegions() {
         return productRepository.findAllRegions();
     }
 
-    // Получить все категории
     public List<String> getAllCategories() {
         return productRepository.findAllCategories();
     }
 
-    // Фильтрация товаров
     public List<Product> filterProducts(String region, String category,
                                         String condition, Integer priceFrom,
                                         Integer priceTo) {
-        // Обработка пустых строк
         region = (region != null && region.isEmpty()) ? null : region;
         category = (category != null && category.isEmpty()) ? null : category;
         condition = (condition != null && condition.isEmpty()) ? null : condition;
@@ -156,7 +147,6 @@ public class ProductService {
         return productRepository.filterProducts(region, category, condition, priceFrom, priceTo);
     }
 
-    // Объявления пользователя по статусу
     public List<Product> getProductsByUserAndStatus(Long userId, String statusName) {
         if (userId == null) {
             return new ArrayList<>();
@@ -164,7 +154,6 @@ public class ProductService {
         return productRepository.findByUser_IdAndStatus_StatusName(userId, statusName);
     }
 
-    // Поиск по названию
     public List<Product> searchByName(String query) {
         if (query == null || query.isEmpty()) {
             return new ArrayList<>();
@@ -172,17 +161,14 @@ public class ProductService {
         return productRepository.searchByTitle(query);
     }
 
-    // Объявления, ожидающие модерации
     public List<Product> getPendingProducts() {
         return productRepository.findByStatus_StatusName(ProductStatus.PENDING);
     }
 
-    // Одобрить объявление
     public boolean approveProduct(Long id) {
         return changeStatus(id, ProductStatus.APPROVED);
     }
 
-    // Отклонить объявление
     public boolean rejectProduct(Long id) {
         return changeStatus(id, ProductStatus.REJECTED);
     }

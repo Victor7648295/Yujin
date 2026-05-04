@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
+/**
+ * Админский отчёт по объявлениям (/admin/report): принимает диапазон
+ * дат, передаёт его в {@link ReportService} и кладёт сгруппированный
+ * по статусу результат в модель. По умолчанию выбран текущий год.
+ */
 @Controller
 @RequestMapping("/admin/report")
 @RequiredArgsConstructor

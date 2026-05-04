@@ -5,6 +5,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Отображает страницу входа и переводит технические query-параметры
+ * Spring Security (error / logout / registered) в человекочитаемые
+ * сообщения для шаблона.
+ */
 @Controller
 public class LoginController {
 

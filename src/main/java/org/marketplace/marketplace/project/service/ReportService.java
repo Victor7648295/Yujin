@@ -14,6 +14,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Формирует отчёт по объявлениям за заданный диапазон дат: загружает
+ * опубликованные в этом интервале продукты, группирует их по статусу
+ * (PENDING / APPROVED / REJECTED) и собирает соответствующие
+ * человекочитаемые описания статусов в {@link ReportData}.
+ */
 @Service
 @RequiredArgsConstructor
 public class ReportService {

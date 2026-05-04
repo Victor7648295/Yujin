@@ -7,10 +7,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Бизнес-логика управления категориями: чтение, создание, обновление
+ * и удаление; гарантирует уникальность названия категории.
+ */
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
-
 
     private final CategoryRepository categoryRepository;
 
@@ -24,7 +27,6 @@ public class CategoryService {
     }
 
     public Category createCategory(Category category) {
-        // Проверка на уникальность имени
         if (categoryRepository.existsByName(category.getName())) {
             throw new RuntimeException("Категория с таким названием уже существует");
         }
@@ -34,7 +36,6 @@ public class CategoryService {
     public Category updateCategory(Long id, Category categoryDetails) {
         Category category = getCategoryById(id);
 
-        // Проверка на уникальность имени (исключая текущую категорию)
         if (!category.getName().equals(categoryDetails.getName()) &&
                 categoryRepository.existsByName(categoryDetails.getName())) {
             throw new RuntimeException("Категория с таким названием уже существует");

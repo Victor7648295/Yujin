@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
+/**
+ * Публичная страница детального просмотра объявления (/product/{id}).
+ * Если объявления нет — переадресует на главную.
+ */
 @Controller
 @RequiredArgsConstructor
 public class ProductPageController {

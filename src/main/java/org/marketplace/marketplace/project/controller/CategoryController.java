@@ -11,6 +11,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+/**
+ * Админский CRUD по категориям объявлений (раздел /admin/categories).
+ * Перерисовывает один и тот же шаблон со списком и поддерживает
+ * создание, редактирование и удаление с flash-сообщениями.
+ */
 @Controller
 @RequestMapping("/admin/categories")
 @RequiredArgsConstructor

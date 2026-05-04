@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+/**
+ * Spring Security {@link UserDetailsService}: ищет пользователя по
+ * email и формирует authority {@code ROLE_<ROLE>} на основе поля
+ * {@code role} в {@link User}.
+ */
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
