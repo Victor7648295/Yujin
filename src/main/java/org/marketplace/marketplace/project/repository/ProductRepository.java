@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +38,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // Поиск по категории
     List<Product> findByCategory(String category);
 
-    // Поиск по состоянию
-    List<Product> findByCondition(String condition);
+    // Поиск по состоянию (по названию)
+    List<Product> findByCondition_Name(String name);
 
     // Поиск по цене в диапазоне
     List<Product> findByPriceBetween(Integer minPrice, Integer maxPrice);
@@ -56,7 +57,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "p.status.id = 2 AND " +
             "(:region IS NULL OR :region = '' OR p.region = :region) AND " +
             "(:category IS NULL OR :category = '' OR p.category = :category) AND " +
-            "(:condition IS NULL OR :condition = '' OR p.condition = :condition) AND " +
+            "(:condition IS NULL OR :condition = '' OR p.condition.name = :condition) AND " +
             "(:priceFrom IS NULL OR p.price >= :priceFrom) AND " +
             "(:priceTo IS NULL OR p.price <= :priceTo)")
     List<Product> searchProducts(@Param("region") String region,
@@ -69,7 +70,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE " +
             "(:region IS NULL OR p.region = :region) AND " +
             "(:category IS NULL OR p.category = :category) AND " +
-            "(:condition IS NULL OR p.condition = :condition) AND " +
+            "(:condition IS NULL OR p.condition.name = :condition) AND " +
             "(:priceFrom IS NULL OR p.price >= :priceFrom) AND " +
             "(:priceTo IS NULL OR p.price <= :priceTo)")
     List<Product> filterProducts(@Param("region") String region,
@@ -86,4 +87,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // Объявления пользователя по статусу (для страницы "Мои объявления")
     List<Product> findByUser_IdAndStatus_StatusName(Long userId, String statusName);
+
+    // Объявления, опубликованные в диапазоне дат (для отчёта)
+    @Query("SELECT p FROM Product p WHERE p.createdAt >= :from AND p.createdAt < :to " +
+            "ORDER BY p.status.statusName ASC, p.createdAt DESC")
+    List<Product> findPublishedBetween(@Param("from") LocalDateTime from,
+                                       @Param("to") LocalDateTime to);
 }

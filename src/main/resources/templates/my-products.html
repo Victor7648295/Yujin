@@ -51,7 +51,7 @@
             <div class="price" th:text="${product.price} + ' р'">0 р</div>
 
             <div class="meta">
-                <span th:text="${product.condition}">Б/у</span> <br>
+                <span th:text="${product.condition?.name}">Б/у</span> <br>
                 <span th:text="${product.region}">Регион</span>
             </div>
         </div>
@@ -83,7 +83,7 @@
             <div class="price" th:text="${product.price} + ' р'">0 р</div>
 
             <div class="meta">
-                <span th:text="${product.condition}">Б/у</span> <br>
+                <span th:text="${product.condition?.name}">Б/у</span> <br>
                 <span th:text="${product.region}">Регион</span>
             </div>
         </div>

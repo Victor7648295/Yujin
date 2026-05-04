@@ -14,16 +14,23 @@ public class ProductStatusSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        ensureStatus(ProductStatus.PENDING);
-        ensureStatus(ProductStatus.APPROVED);
-        ensureStatus(ProductStatus.REJECTED);
+        ensureStatus(ProductStatus.PENDING, "Ожидает модерации");
+        ensureStatus(ProductStatus.APPROVED, "Активное объявление");
+        ensureStatus(ProductStatus.REJECTED, "Отклонено модерацией");
     }
 
-    private void ensureStatus(String statusName) {
-        productStatusRepository.findByStatusName(statusName).orElseGet(() -> {
-            ProductStatus status = new ProductStatus();
-            status.setStatusName(statusName);
-            return productStatusRepository.save(status);
-        });
+    private void ensureStatus(String statusName, String description) {
+        ProductStatus status = productStatusRepository.findByStatusName(statusName)
+                .orElseGet(() -> {
+                    ProductStatus s = new ProductStatus();
+                    s.setStatusName(statusName);
+                    return s;
+                });
+        if (description != null && !description.equals(status.getDescription())) {
+            status.setDescription(description);
+            productStatusRepository.save(status);
+        } else if (status.getId() == null) {
+            productStatusRepository.save(status);
+        }
     }
 }

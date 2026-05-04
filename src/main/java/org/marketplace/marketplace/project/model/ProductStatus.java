@@ -30,4 +30,7 @@ public class ProductStatus {
 
     @Column(name = "status_name", nullable = false, unique = true, length = 20)
     private String statusName;
+
+    @Column(name = "description", length = 100)
+    private String description;
 }

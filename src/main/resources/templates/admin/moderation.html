@@ -75,7 +75,7 @@
                 <div class="moderation-info">
                     <h2 th:text="${product.title}">Очки виртуальной реальности</h2>
                     <div class="price"><span th:text="${product.price}">80</span> р</div>
-                    <p th:text="${product.condition}">Б/у</p>
+                    <p th:text="${product.condition?.name}">Б/у</p>
                     <p th:text="${product.region}">Орша, Витебская обл.</p>
                 </div>
 

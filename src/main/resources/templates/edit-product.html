@@ -71,12 +71,12 @@
             <label>Состояние</label>
             <div class="condition-switch">
                 <button type="button" class="condition-btn" data-value="Новое"
-                        th:classappend="${product.condition == 'Новое'} ? 'active'">Новое</button>
+                        th:classappend="${product.condition?.name == 'Новое'} ? 'active'">Новое</button>
                 <button type="button" class="condition-btn" data-value="Б/у"
-                        th:classappend="${product.condition == 'Б/у'} ? 'active'">Б/у</button>
+                        th:classappend="${product.condition?.name == 'Б/у'} ? 'active'">Б/у</button>
             </div>
             <input type="hidden" name="condition" id="conditionValue"
-                   th:value="${product.condition}" required>
+                   th:value="${product.condition?.name}" required>
 
             <!-- Регион -->
             <label>Местоположение</label>

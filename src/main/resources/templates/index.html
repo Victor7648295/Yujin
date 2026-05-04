@@ -93,14 +93,14 @@
                  th:data-price="${product.price}"
                  th:data-region="${product.region}"
                  th:data-category="${product.category}"
-                 th:data-condition="${product.condition}">
+                 th:data-condition="${product.condition?.name}">
 
                 <img th:src="@{${product.imagePath}}" th:alt="${product.title}">
 
                 <div class="product-info">
                     <h3 th:text="${product.title}">Название товара</h3>
                     <p class="price" th:text="${product.price} + ' р'">200 р</p>
-                    <p th:text="${product.condition}">Б/у</p>
+                    <p th:text="${product.condition?.name}">Б/у</p>
                     <p th:text="${product.region}">Орша</p>
                 </div>
 

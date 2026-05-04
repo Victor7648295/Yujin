@@ -55,6 +55,12 @@
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
 
+        <!-- Thymeleaf extras для java.time (нужен для #temporals в отчёте) -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-java8time</artifactId>
+        </dependency>
+
         <!-- PostgreSQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
