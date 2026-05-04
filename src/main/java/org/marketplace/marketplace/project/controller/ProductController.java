@@ -2,6 +2,7 @@ package org.marketplace.marketplace.project.controller;
 
 import org.marketplace.marketplace.project.model.Product;
 import org.marketplace.marketplace.project.repository.UserRepository;
+import org.marketplace.marketplace.project.service.CategoryService;
 import org.marketplace.marketplace.project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private UserRepository userRepository;
@@ -62,7 +66,7 @@ public class ProductController {
     public String showCreateForm(Model model, Principal principal) {
         model.addAttribute("product", new Product());
         model.addAttribute("regions", productService.getAllRegions());
-        model.addAttribute("categories", productService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllCategories());
         Long currentUserId = (principal == null) ? null
                 : userRepository.findByEmail(principal.getName())
                         .map(u -> u.getId()).orElse(null);
