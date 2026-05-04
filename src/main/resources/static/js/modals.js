@@ -19,6 +19,20 @@ document.addEventListener("DOMContentLoaded", () => {
         callModal.style.display = "flex";
     });
 
+    // ===== Кнопки "Показать телефон" в карточках объявлений =====
+    const phoneNumberEl = document.getElementById("modalPhoneNumber");
+    const sellerNameEl = document.getElementById("modalUserName");
+    document.querySelectorAll(".show-phone-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const phone = btn.dataset.phone || "";
+            const seller = btn.dataset.seller || "Продавец";
+            if (phoneNumberEl) phoneNumberEl.textContent = phone;
+            if (sellerNameEl) sellerNameEl.textContent = seller;
+            if (overlay) overlay.style.display = "block";
+            if (callModal) callModal.style.display = "flex";
+        });
+    });
+
     // ===== Открытие выхода =====
     logoutLink?.addEventListener("click", () => {
         overlay.style.display = "block";

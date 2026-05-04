@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .antMatchers("/css/**", "/js/**", "/images/**", "/img/**").permitAll()
                 .antMatchers("/admin/**", "/categories.html", "/edit/**").permitAll()
                 .antMatchers("/create-category", "/update/**", "/delete-category/**").permitAll()
-                .antMatchers("/", "/login", "/register").permitAll()
+                .antMatchers("/login", "/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

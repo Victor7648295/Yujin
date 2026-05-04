@@ -110,14 +110,14 @@ public class ProductController {
                                 @ModelAttribute Product product,
                                 @RequestParam(value = "photo", required = false) MultipartFile photo) {
         productService.updateProduct(id, product, photo);
-        return "redirect:/";
+        return "redirect:/my-products";
     }
 
     // Удаление товара
     @PostMapping("/product/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
-        return "redirect:/";
+        return "redirect:/my-products";
     }
 
     // API для получения телефона (через AJAX)

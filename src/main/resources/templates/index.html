@@ -10,7 +10,9 @@
 <body>
 
 <header class="header">
-    <div class="logo">Доска объявлений</div>
+    <div class="logo">
+        <a th:href="@{/}" href="/">Доска объявлений</a>
+    </div>
 
     <div class="search">
         <form th:action="@{/search-by-name}" method="get" class="search-form">
@@ -19,8 +21,11 @@
         </form>
     </div>
 
-    <div class="login">
-        <a th:href="@{/login}" href="/login" class="profile-link">Вход</a>
+    <div class="header-actions">
+        <a th:href="@{/product/create}" href="/product/create" class="btn-green">+ Подать объявление</a>
+        <a th:href="@{/my-products}" href="/my-products" class="btn-green">Мои объявления</a>
+        <a th:href="@{/profile/edit}" href="/profile/edit" class="profile-link">Редактировать профиль</a>
+        <a th:href="@{/logout}" href="/logout" class="profile-link">Выход</a>
     </div>
 </header>
 
@@ -99,7 +104,9 @@
 
                 <div class="product-buttons">
                     <a th:href="@{'/product/' + ${product.id}}" class="btn-green">Подробнее</a>
-                    <button type="button" class="btn-light show-phone-btn" th:data-phone="${product.phone}">Показать телефон</button>
+                    <button type="button" class="btn-light show-phone-btn"
+                            th:data-phone="${product.phone}"
+                            th:data-seller="${product.sellerName}">Показать телефон</button>
                 </div>
             </div>
         </div>

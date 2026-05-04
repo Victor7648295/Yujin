@@ -156,6 +156,14 @@ public class ProductService {
         return productRepository.filterProducts(region, category, condition, priceFrom, priceTo);
     }
 
+    // Объявления пользователя по статусу
+    public List<Product> getProductsByUserAndStatus(Long userId, String statusName) {
+        if (userId == null) {
+            return new ArrayList<>();
+        }
+        return productRepository.findByUser_IdAndStatus_StatusName(userId, statusName);
+    }
+
     // Поиск по названию
     public List<Product> searchByName(String query) {
         if (query == null || query.isEmpty()) {

@@ -83,4 +83,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> searchByTitle(@Param("query") String query);
 
     List<Product> findByStatusId(Long statusId);
+
+    // Объявления пользователя по статусу (для страницы "Мои объявления")
+    List<Product> findByUser_IdAndStatus_StatusName(Long userId, String statusName);
 }
