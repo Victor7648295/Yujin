@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Отчёт по размещённым объявлениям</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        .alert {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .report-status {
+            margin-top: 30px;
+        }
+        .report-status h2 {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            color: #fff;
+        }
+        .status-PENDING h2  { background-color: #f39c12; }
+        .status-APPROVED h2 { background-color: #2980b9; }
+        .status-ACTIVE h2   { background-color: #27ae60; }
+        .status-REJECTED h2 { background-color: #c0392b; }
+        .status-UNKNOWN h2  { background-color: #7f8c8d; }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            table-layout: fixed;
+        }
+        .report-table th,
+        .report-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ecf0f1;
+            text-align: left;
+            vertical-align: top;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+        }
+        .report-table th {
+            background: #f8f9fa;
+            color: #2c3e50;
+        }
+        /* Фиксированная ширина колонок: одинаковые столбцы во всех таблицах. */
+        .report-table col.col-title    { width: 28%; }
+        .report-table col.col-category { width: 14%; }
+        .report-table col.col-region   { width: 14%; }
+        .report-table col.col-price    { width: 10%; }
+        .report-table col.col-status   { width: 14%; }
+        .report-table col.col-date     { width: 20%; }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 12px;
+            text-align: center;
+            min-width: 80px;
+        }
+        .status-badge-PENDING  { background-color: #f39c12; }
+        .status-badge-APPROVED { background-color: #2980b9; }
+        .status-badge-ACTIVE   { background-color: #27ae60; }
+        .status-badge-REJECTED { background-color: #c0392b; }
+        .status-badge-UNKNOWN  { background-color: #7f8c8d; }
+
+        .empty-group {
+            color: #7f8c8d;
+            padding: 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="admin-header">
+        <div class="logo">
+            <a th:href="@{/}" href="/">Доска объявлений</a>
+        </div>
+        <div class="logout" onclick="logout()">Выход</div>
+    </header>
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+            <h3>Админ-панель</h3>
+            <ul>
+                <li><a href="/admin/users">Пользователи системы</a></li>
+                <li><a href="/admin/moderation">Модерация объявлений</a></li>
+                <li><a href="/admin/categories">Управление категориями</a></li>
+                <li class="active"><a href="/admin/report">Отчёт по размещённым объявлениям</a></li>
+            </ul>
+        </aside>
+
+        <!-- CONTENT -->
+        <main class="admin-content">
+
+            <h1>Отчёт по размещённым объявлениям</h1>
+
+            <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+
+            <form th:action="@{/admin/report}" method="get" class="report-container">
+
+                <div class="report-field">
+                    <label for="from">Начало периода</label>
+                    <input type="date" id="from" name="from" th:value="${from}" required>
+                </div>
+
+                <div class="report-field">
+                    <label for="to">Окончание периода</label>
+                    <input type="date" id="to" name="to" th:value="${to}" required>
+                </div>
+
+                <div th:if="${report}" class="report-result-title">
+                    Всего объявлений за период
+                </div>
+
+                <div th:if="${report}" class="report-result-value" th:text="${report.total}">0</div>
+
+                <input type="hidden" name="submitted" value="true">
+                <button type="submit" class="btn-green report-btn">
+                    Сформировать отчёт
+                </button>
+
+            </form>
+
+            <!-- РЕЗУЛЬТАТЫ ОТЧЁТА -->
+            <div th:if="${report}">
+
+                <div th:each="entry : ${report.groups}"
+                     th:classappend="'status-' + ${entry.key}"
+                     class="report-status">
+
+                    <h2 th:text="${report.descriptions[entry.key]} + ' (' + ${entry.value.size()} + ')'">PENDING (0)</h2>
+
+                    <div th:if="${entry.value.isEmpty()}" class="empty-group">
+                        Нет объявлений с этим статусом за период
+                    </div>
+
+                    <table th:unless="${entry.value.isEmpty()}" class="report-table">
+                        <colgroup>
+                            <col class="col-title">
+                            <col class="col-category">
+                            <col class="col-region">
+                            <col class="col-price">
+                            <col class="col-status">
+                            <col class="col-date">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Категория</th>
+                                <th>Регион</th>
+                                <th>Цена</th>
+                                <th>Статус</th>
+                                <th>Дата публикации</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="product : ${entry.value}">
+                                <td th:text="${product.title}">Название</td>
+                                <td th:text="${product.category}">Категория</td>
+                                <td th:text="${product.region}">Регион</td>
+                                <td th:text="${product.price} + ' р'">0 р</td>
+                                <td>
+                                    <span class="status-badge"
+                                          th:classappend="'status-badge-' + ${entry.key}"
+                                          th:text="${product.status != null and product.status.description != null
+                                                       ? product.status.description
+                                                       : report.descriptions[entry.key]}">STATUS</span>
+                                </td>
+                                <td th:text="${product.createdAt != null}
+                                              ? ${#temporals.format(product.createdAt, 'dd.MM.yyyy HH:mm')}
+                                              : '—'">—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+        function logout() {
+            if (confirm('Вы уверены, что хотите выйти?')) {
+                window.location.href = '/logout';
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Новое объявление</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="logo">
+        <a th:href="@{/}" href="/">Доска объявлений</a>
+    </div>
+    <div class="header-actions">
+        <a sec:authorize="!hasRole('ADMIN')" th:href="@{/my-products}" href="/my-products" class="btn-green">Мои объявления</a>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/moderation}" href="/admin/moderation" class="btn-green">Админ-панель</a>
+        <a th:href="@{/profile/edit}" href="/profile/edit" class="profile-link">Редактировать профиль</a>
+        <a th:href="@{/logout}" href="/logout" class="profile-link">Выход</a>
+    </div>
+</header>
+
+<!-- ФОРМА -->
+<div class="form-page">
+    <div class="form-card">
+
+        <h2>Новое объявление</h2>
+
+        <form id="adForm" th:action="@{/product/create}" th:object="${product}" method="post" enctype="multipart/form-data">
+
+            <!-- ID текущего пользователя -->
+            <input type="hidden" name="userId" th:value="${currentUserId}">
+
+            <!-- Название -->
+            <label>Название объявления</label>
+            <input type="text" name="title" placeholder="Введите название объявления" required>
+
+            <!-- Категория -->
+            <label>Категория</label>
+            <select name="category" required>
+                <option value="" disabled selected hidden>Выберите категорию</option>
+                <option th:each="cat : ${categories}"
+                        th:value="${cat.name}"
+                        th:text="${cat.name}"></option>
+            </select>
+
+            <!-- Фото -->
+            <label>Добавить фото</label>
+            <input type="file" id="photoInput" name="photo" accept="image/*">
+            <img id="preview" class="photo-preview" alt="preview">
+
+            <!-- Описание -->
+            <label>Описание</label>
+            <textarea name="description" placeholder="Расскажите подробности"></textarea>
+
+            <!-- Цена -->
+            <label>Цена</label>
+            <input type="number" id="price" name="price" placeholder="Введите цену" min="0" step="1" required>
+
+            <!-- Состояние -->
+            <label>Состояние</label>
+            <div class="condition-switch">
+                <button type="button" class="condition-btn" data-value="Новое">Новое</button>
+                <button type="button" class="condition-btn" data-value="Б/у">Б/у</button>
+            </div>
+            <input type="hidden" name="condition" id="conditionValue" required>
+
+            <!-- Регион -->
+            <label>Местоположение</label>
+            <input type="text" name="region" placeholder="Введите местоположение"
+                   maxlength="100" required>
+
+            <!-- Имя продавца -->
+            <label>Имя продавца</label>
+            <input type="text" name="sellerName" placeholder="Введите имя">
+
+            <!-- Телефон -->
+            <label>Телефон</label>
+            <input type="tel" name="phone" placeholder="Введите телефон" pattern="[0-9+()\-\s]{6,}" required>
+
+            <!-- Кнопка -->
+            <button type="submit" class="btn-green full-btn">
+                Подать объявление
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+<!-- Подключение JS -->
+<script th:src="@{/js/script.js}" src="/js/script.js"></script>
+
+<!-- Состояние: запись выбранного значения в скрытое поле condition -->
+<script>
+    (function () {
+        var hidden = document.getElementById('conditionValue');
+        var buttons = document.querySelectorAll('.condition-btn');
+        buttons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                buttons.forEach(function (b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                hidden.value = btn.getAttribute('data-value');
+            });
+        });
+
+        document.getElementById('adForm').addEventListener('submit', function (e) {
+            if (!hidden.value) {
+                e.preventDefault();
+                alert('Выберите состояние товара');
+            }
+        });
+    })();
+</script>
+</body>
+
+</html>

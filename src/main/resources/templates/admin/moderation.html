@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Модерация объявлений</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        .alert {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+        .moderation-actions form {
+            display: inline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="admin-header">
+        <div class="logo">
+            <a th:href="@{/}" href="/">Доска объявлений</a>
+        </div>
+        <div class="logout" onclick="logout()">Выход</div>
+    </header>
+
+    <div class="admin-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+            <h3>Админ-панель</h3>
+            <ul>
+                <li><a href="/admin/users">Пользователи системы</a></li>
+                <li class="active"><a href="/admin/moderation">Модерация объявлений</a></li>
+                <li><a href="/admin/categories">Управление категориями</a></li>
+                <li><a href="/admin/report">Отчёт по размещённым объявлениям</a></li>
+            </ul>
+        </aside>
+
+        <!-- CONTENT -->
+        <main class="admin-content">
+
+            <h1>Модерация объявлений <span th:text="${count}">0</span></h1>
+
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+            <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+
+            <div th:if="${#lists.isEmpty(products)}" class="empty-state">
+                Нет объявлений, ожидающих модерации
+            </div>
+
+            <!-- КАРТОЧКА ОБЪЯВЛЕНИЯ -->
+            <div th:each="product : ${products}" class="moderation-card">
+
+                <img th:src="${product.imagePath}" th:alt="${product.title}" src="img/image 2.png" alt="Объявление">
+
+                <div class="moderation-info">
+                    <h2 th:text="${product.title}">Очки виртуальной реальности</h2>
+                    <div class="price"><span th:text="${product.price}">80</span> р</div>
+                    <p th:text="${product.condition?.name}">Б/у</p>
+                    <p th:text="${product.region}">Орша, Витебская обл.</p>
+                </div>
+
+                <div class="moderation-actions">
+                    <a th:href="@{/admin/moderation/details/{id}(id=${product.id})}" class="btn-green">Подробнее</a>
+                    <form th:action="@{/admin/moderation/approve/{id}(id=${product.id})}" method="post">
+                        <button type="submit" class="btn-yellow">Одобрить</button>
+                    </form>
+                    <form th:action="@{/admin/moderation/reject/{id}(id=${product.id})}" method="post"
+                          onsubmit="return confirm('Отклонить объявление?');">
+                        <button type="submit" class="btn-red">Отклонить</button>
+                    </form>
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+        function logout() {
+            if (confirm('Вы уверены, что хотите выйти?')) {
+                window.location.href = '/logout';
+            }
+        }
+    </script>
+
+</body>
+
+</html>

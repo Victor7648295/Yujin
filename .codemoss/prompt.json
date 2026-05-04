@@ -1,0 +1,10 @@
+{
+  "prompts": {
+    "2654f9aa-277c-43fa-85dd-6743aed3b609": {
+      "id": "2654f9aa-277c-43fa-85dd-6743aed3b609",
+      "name": "Проект 1",
+      "content": "У меня есть HTML файл по пути: resources/templates/categories.html\n\nПроанализируй этот файл и на основе его функционала создай полноценную бэкенд-часть на Java (Spring Boot) для работы с категориями.\n\nТРЕБОВАНИЯ:\n\n1. Контролер (Controller)\n   - Создай CategoriesController с REST API эндпоинтами которые нужны для categories.html\n\n2. Сервис (Service)\n   - Создай CategoriesService с бизнес-логикой\n   - Реализуй обработку ошибок и исключений\n   - Добавь логирование действий (INFO, ERROR)\n\n3. Репозиторий (Repository)\n   - Создай CategoriesRepository с методами:\n     - findAll()\n     - findById(Long id)\n     - save(Category category)\n     - deleteById(Long id)\n     - existsByName(String name) - для проверки уникальности\n\n4. Модель (Entity)\n   - Создай Category entity с полями которые проанализируешь в categories.html\n\n5. DTO (Data Transfer Object)\n   - Создай CategoryRequest (для создания/обновления)\n   - Создай CategoryResponse (для ответов клиенту)\nЕсли нужно\n\n6. Маппер\n   - Создай CategoryMapper (используй MapStruct или ручное маппинг)\n\n7. База данных PostgreSQL\n   - Создай SQL скрипт для создания таблицы categories:\n     - Учти все поля из Category entity\n     - Добавь индексы на поля: name, active\n     - Настрой последовательность для id (SERIAL или BIGSERIAL)\n\nВАЖНО:\n- Используй Java 17 или выше\n- Все классы должны быть в правильных пакетах: controller, service, repository, model, dto, exception, mapper\n- Добавь понятные JavaDoc комментарии\n- Следуй REST-конвенциям (правильные HTTP статусы)\n- Для работы с базой используй Spring Data JPA\n\nПожалуйста, создай все эти файлы и покажи их содержимое. После создания покажи инструкцию по подключению к PostgreSQL и запуску приложения.\n\nHTML файл categories.html я прикрепил. Учти его структуру (какие поля, кнопки, таблицы, формы) при реализации API.",
+      "createdAt": 1777717690973
+    }
+  }
+}

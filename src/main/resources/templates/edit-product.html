@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать объявление</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="logo">
+        <a th:href="@{/}" href="/">Доска объявлений</a>
+    </div>
+    <div class="header-actions">
+        <a href="my-ads.html" class="btn-green">Мои объявления</a>
+        <a href="edit-profile.html" class="profile-link">Редактировать профиль</a>
+        <span class="logout-link">Выход</span>
+    </div>
+</header>
+
+<!-- ФОРМА -->
+<div class="form-page">
+    <div class="form-card">
+
+        <h2>Редактировать объявление</h2>
+
+        <form id="adForm"
+              th:action="@{'/product/edit/' + ${product.id}}"
+              th:object="${product}"
+              method="post"
+              enctype="multipart/form-data">
+
+            <!-- Название -->
+            <label>Название объявления</label>
+            <input type="text" name="title" th:value="${product.title}"
+                   placeholder="Введите название объявления" required>
+
+            <!-- Категория -->
+            <label>Категория</label>
+            <select name="category" required>
+                <option value="" disabled hidden>Выберите категорию</option>
+                <option th:each="cat : ${categories}"
+                        th:value="${cat}"
+                        th:text="${cat}"
+                        th:selected="${cat == product.category}"></option>
+            </select>
+
+            <!-- Фото -->
+            <label>Изменить фото (необязательно)</label>
+            <input type="file" id="photoInput" name="photo" accept="image/*">
+            <img id="preview" class="photo-preview"
+                 th:src="@{${product.imagePath}}"
+                 th:alt="${product.title}">
+
+            <!-- Описание -->
+            <label>Описание</label>
+            <textarea name="description"
+                      placeholder="Расскажите подробности"
+                      th:text="${product.description}"></textarea>
+
+            <!-- Цена -->
+            <label>Цена</label>
+            <input type="number" id="price" name="price"
+                   th:value="${product.price}"
+                   placeholder="Введите цену" min="0" step="1" required>
+
+            <!-- Состояние -->
+            <label>Состояние</label>
+            <div class="condition-switch">
+                <button type="button" class="condition-btn" data-value="Новое"
+                        th:classappend="${product.condition?.name == 'Новое'} ? 'active'">Новое</button>
+                <button type="button" class="condition-btn" data-value="Б/у"
+                        th:classappend="${product.condition?.name == 'Б/у'} ? 'active'">Б/у</button>
+            </div>
+            <input type="hidden" name="condition" id="conditionValue"
+                   th:value="${product.condition?.name}" required>
+
+            <!-- Регион -->
+            <label>Местоположение</label>
+            <select name="region" required>
+                <option value="" disabled hidden>Выберите регион</option>
+                <option th:each="reg : ${regions}"
+                        th:value="${reg}"
+                        th:text="${reg}"
+                        th:selected="${reg == product.region}"></option>
+            </select>
+
+            <!-- Имя продавца -->
+            <label>Имя продавца</label>
+            <input type="text" name="sellerName" th:value="${product.sellerName}"
+                   placeholder="Введите имя">
+
+            <!-- Телефон -->
+            <label>Телефон</label>
+            <input type="tel" name="phone" th:value="${product.phone}"
+                   placeholder="Введите телефон" pattern="[0-9+()\-\s]{6,}" required>
+
+            <!-- Кнопка -->
+            <button type="submit" class="btn-green full-btn">
+                Сохранить изменения
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+<script th:src="@{/js/script.js}" src="/js/script.js"></script>
+
+<!-- Состояние: запись выбранного значения в скрытое поле condition -->
+<script>
+    (function () {
+        var hidden = document.getElementById('conditionValue');
+        var buttons = document.querySelectorAll('#adForm .condition-btn');
+        if (!hidden || !buttons.length) return;
+
+        var current = hidden.value || '';
+
+        function paint() {
+            buttons.forEach(function (b) {
+                if (b.getAttribute('data-value') === current) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+        }
+
+        buttons.forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                var val = btn.getAttribute('data-value');
+                current = (current === val) ? '' : val;
+                hidden.value = current;
+                paint();
+            });
+        });
+
+        document.getElementById('adForm').addEventListener('submit', function (e) {
+            if (!hidden.value) {
+                e.preventDefault();
+                alert('Выберите состояние товара');
+            }
+        });
+    })();
+</script>
+
+</body>
+
+</html>

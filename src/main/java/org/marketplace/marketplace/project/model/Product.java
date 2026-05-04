@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -32,8 +34,10 @@ public class Product {
     @Column(nullable = false, length = 100)
     private String category;
 
-    @Column(nullable = false, length = 50)
-    private String condition;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "condition_id",
+            foreignKey = @ForeignKey(name = "fk_products_condition"))
+    private ProductCondition condition;
 
     @Column(name = "image_path", length = 500)
     private String imagePath;
@@ -46,4 +50,18 @@ public class Product {
 
     @Column(name = "seller_name", length = 100)
     private String sellerName;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "status_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_products_status"))
+    private ProductStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",
+            foreignKey = @ForeignKey(name = "fk_products_user"))
+    private User user;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 }

@@ -143,6 +143,44 @@ body {
     gap: 10px;
 }
 
+/* PRODUCT CARD (главная страница "/") */
+
+.products-wrapper {
+    flex: 1;
+}
+
+.products-wrapper h2 {
+    margin-bottom: 30px;
+}
+
+.product-card {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.product-card img {
+    width: 150px;
+    border-radius: 15px;
+}
+
+.product-info {
+    margin-left: 20px;
+    text-align: center;
+}
+
+.product-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: auto;
+}
+
 /* BUTTONS */
 
 button {

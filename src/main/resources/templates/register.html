@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="css/style.css">
+    <style>
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #f5c6cb;
+        }
+        .field-error {
+            color: #dc3545;
+            font-size: 14px;
+            margin: -10px 0 10px 0;
+            padding-left: 10px;
+        }
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">
+        <a th:href="@{/}" href="index.html">Доска объявлений</a>
+    </div>
+</header>
+
+<div class="login-page">
+
+    <div class="login-card">
+        <h2>Регистрация</h2>
+
+        <!-- Успешное сообщение -->
+        <div th:if="${successMessage}" class="success-message" th:text="${successMessage}"></div>
+
+        <!-- Глобальные ошибки регистрации (не зависят от BindingResult) -->
+        <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+        <form th:action="@{/register}" th:object="${registrationRequest}" method="post">
+
+            <input type="text" th:field="*{firstName}" placeholder="Введите Имя" required>
+            <p class="field-error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+
+            <input type="text" th:field="*{lastName}" placeholder="Введите Фамилию" required>
+            <p class="field-error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+
+            <input type="email" th:field="*{email}" placeholder="Введите Email" required>
+            <p class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
+            <input type="password" th:field="*{password}" placeholder="Введите пароль" required>
+            <p class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+
+            <input type="password" th:field="*{confirmPassword}" placeholder="Подтвердите пароль" required>
+            <p class="field-error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
+
+            <button type="submit" class="btn-dark full-btn">
+                Зарегистрироваться
+            </button>
+
+        </form>
+    </div>
+
+</div>
+
+</body>
+
+</html>

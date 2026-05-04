@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -10,7 +11,9 @@
 <body>
 
 <header class="header">
-    <div class="logo">Доска объявлений</div>
+    <div class="logo">
+        <a th:href="@{/}" href="/">Доска объявлений</a>
+    </div>
 
     <div class="search">
         <form th:action="@{/search-by-name}" method="get" class="search-form">
@@ -19,8 +22,12 @@
         </form>
     </div>
 
-    <div class="login">
-        <a th:href="@{/login}" href="/login" class="profile-link">Вход</a>
+    <div class="header-actions">
+        <a sec:authorize="!hasRole('ADMIN')" th:href="@{/product/create}" href="/product/create" class="btn-green">+ Подать объявление</a>
+        <a sec:authorize="!hasRole('ADMIN')" th:href="@{/my-products}" href="/my-products" class="btn-green">Мои объявления</a>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/moderation}" href="/admin/moderation" class="btn-green">Админ-панель</a>
+        <a th:href="@{/profile/edit}" href="/profile/edit" class="profile-link">Редактировать профиль</a>
+        <a th:href="@{/logout}" href="/logout" class="profile-link">Выход</a>
     </div>
 </header>
 
@@ -86,20 +93,22 @@
                  th:data-price="${product.price}"
                  th:data-region="${product.region}"
                  th:data-category="${product.category}"
-                 th:data-condition="${product.condition}">
+                 th:data-condition="${product.condition?.name}">
 
                 <img th:src="@{${product.imagePath}}" th:alt="${product.title}">
 
                 <div class="product-info">
                     <h3 th:text="${product.title}">Название товара</h3>
                     <p class="price" th:text="${product.price} + ' р'">200 р</p>
-                    <p th:text="${product.condition}">Б/у</p>
+                    <p th:text="${product.condition?.name}">Б/у</p>
                     <p th:text="${product.region}">Орша</p>
                 </div>
 
                 <div class="product-buttons">
                     <a th:href="@{'/product/' + ${product.id}}" class="btn-green">Подробнее</a>
-                    <button type="button" class="btn-light show-phone-btn" th:data-phone="${product.phone}">Показать телефон</button>
+                    <button type="button" class="btn-light show-phone-btn"
+                            th:data-phone="${product.phone}"
+                            th:data-seller="${product.sellerName}">Показать телефон</button>
                 </div>
             </div>
         </div>
@@ -127,6 +136,44 @@
 
 <script th:src="@{/js/script.js}" src="/js/script.js"></script>
 <script th:src="@{/js/modals.js}" src="/js/modals.js"></script>
+
+<!-- Фильтр по состоянию: запись выбранного значения в скрытое поле condition -->
+<script>
+    (function () {
+        var hidden = document.getElementById('conditionInput');
+        var buttons = document.querySelectorAll('#filterForm .condition-btn');
+        if (!hidden || !buttons.length) return;
+
+        var current = '';
+        var initiallyActive = document.querySelector('#filterForm .condition-btn.active');
+        if (initiallyActive) {
+            current = initiallyActive.getAttribute('data-value');
+        }
+        hidden.value = current;
+
+        function paint() {
+            buttons.forEach(function (b) {
+                if (b.getAttribute('data-value') === current) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+        }
+
+        // Перебиваем возможные другие обработчики классов: выполняемся последним
+        // и красим состояние сами, поэтому не зависим от того, что делал script.js.
+        buttons.forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                var val = btn.getAttribute('data-value');
+                current = (current === val) ? '' : val;
+                hidden.value = current;
+                paint();
+            });
+        });
+    })();
+</script>
 
 </body>
 
