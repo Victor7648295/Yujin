@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.marketplace.marketplace.project.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,6 +26,9 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/css/**", "/js/**", "/images/**", "/img/**").permitAll()
                 .antMatchers("/login", "/register").permitAll()
+                .antMatchers(HttpMethod.GET, "/", "/filter", "/search-by-name").permitAll()
+                .regexMatchers(HttpMethod.GET, "^/product/\\d+$").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/product/*/phone").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
