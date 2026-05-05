@@ -55,6 +55,7 @@ body {
     padding: 25px;
     border-radius: 25px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    margin-top: 60px;
 }
 
 .filters label {
@@ -155,24 +156,32 @@ body {
     color: white;
 }
 
+#productsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+}
+
 .product-card {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
+    width: 260px;
     background: white;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 25px;
-    margin-bottom: 20px;
     transition: 0.3s;
 }
 
 .product-card img {
-    width: 150px;
+    width: 100%;
     border-radius: 15px;
 }
 
 .product-info {
-    margin-left: 20px;
+    margin-top: 15px;
     text-align: center;
 }
 
@@ -180,7 +189,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-left: auto;
+    margin-top: 15px;
 }
 
 /* BUTTONS */
