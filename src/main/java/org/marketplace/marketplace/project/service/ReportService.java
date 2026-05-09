@@ -1,7 +1,7 @@
 package org.marketplace.marketplace.project.service;
 
 import lombok.RequiredArgsConstructor;
-import org.marketplace.marketplace.project.model.ProductStatus;
+import org.marketplace.marketplace.project.model.TransferStatus;
 import org.marketplace.marketplace.project.model.ReportData;
 import org.marketplace.marketplace.project.model.Transfer;
 import org.marketplace.marketplace.project.repository.TransferRepository;
@@ -39,14 +39,14 @@ public class ReportService {
         List<Transfer> transfers = transferRepository.findPublishedBetween(start, endExclusive);
 
         Map<String, List<Transfer>> groups = new LinkedHashMap<>();
-        groups.put(ProductStatus.PENDING, new ArrayList<>());
-        groups.put(ProductStatus.APPROVED, new ArrayList<>());
-        groups.put(ProductStatus.REJECTED, new ArrayList<>());
+        groups.put(TransferStatus.PENDING, new ArrayList<>());
+        groups.put(TransferStatus.APPROVED, new ArrayList<>());
+        groups.put(TransferStatus.REJECTED, new ArrayList<>());
 
         Map<String, String> descriptions = new LinkedHashMap<>();
-        descriptions.put(ProductStatus.PENDING, "Ожидает модерации");
-        descriptions.put(ProductStatus.APPROVED, "Активное объявление");
-        descriptions.put(ProductStatus.REJECTED, "Отклонено модерацией");
+        descriptions.put(TransferStatus.PENDING, "Ожидает модерации");
+        descriptions.put(TransferStatus.APPROVED, "Активное объявление");
+        descriptions.put(TransferStatus.REJECTED, "Отклонено модерацией");
 
         for (Transfer p : transfers) {
             String status = (p.getStatus() != null && p.getStatus().getStatusName() != null)

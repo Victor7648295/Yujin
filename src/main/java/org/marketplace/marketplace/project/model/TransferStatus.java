@@ -17,8 +17,8 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "product_statuses")
-public class ProductStatus {
+@Table(name = "transfer_statuses")
+public class TransferStatus {
 
     public static final String PENDING = "PENDING";
     public static final String APPROVED = "APPROVED";

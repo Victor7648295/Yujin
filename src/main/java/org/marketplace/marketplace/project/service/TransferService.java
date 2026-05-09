@@ -2,9 +2,9 @@ package org.marketplace.marketplace.project.service;
 
 
 import lombok.RequiredArgsConstructor;
-import org.marketplace.marketplace.project.model.ProductStatus;
+import org.marketplace.marketplace.project.model.TransferStatus;
 import org.marketplace.marketplace.project.model.Transfer;
-import org.marketplace.marketplace.project.repository.ProductStatusRepository;
+import org.marketplace.marketplace.project.repository.TransferStatusRepository;
 import org.marketplace.marketplace.project.repository.TransferRepository;
 import org.marketplace.marketplace.project.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ import java.util.UUID;
 public class TransferService {
 
     private final TransferRepository transferRepository;
-    private final ProductStatusRepository productStatusRepository;
+    private final TransferStatusRepository transferStatusRepository;
     private final UserRepository userRepository;
 
     private static final int IMAGE_SIZE = 200;
@@ -60,7 +60,7 @@ public class TransferService {
             transfer.setImagePath(savedPath);
         }
         if (transfer.getStatus() == null) {
-            transfer.setStatus(getOrCreateStatus(ProductStatus.PENDING));
+            transfer.setStatus(getOrCreateStatus(TransferStatus.PENDING));
         }
         return transferRepository.save(transfer);
     }
@@ -162,15 +162,15 @@ public class TransferService {
     }
 
     public List<Transfer> getPendingProducts() {
-        return transferRepository.findByStatus_StatusName(ProductStatus.PENDING);
+        return transferRepository.findByStatus_StatusName(TransferStatus.PENDING);
     }
 
     public boolean approveProduct(Long id) {
-        return changeStatus(id, ProductStatus.APPROVED);
+        return changeStatus(id, TransferStatus.APPROVED);
     }
 
     public boolean rejectProduct(Long id) {
-        return changeStatus(id, ProductStatus.REJECTED);
+        return changeStatus(id, TransferStatus.REJECTED);
     }
 
     private boolean changeStatus(Long transferId, String statusName) {
@@ -181,11 +181,11 @@ public class TransferService {
         }).orElse(false);
     }
 
-    private ProductStatus getOrCreateStatus(String statusName) {
-        return productStatusRepository.findByStatusName(statusName).orElseGet(() -> {
-            ProductStatus status = new ProductStatus();
+    private TransferStatus getOrCreateStatus(String statusName) {
+        return transferStatusRepository.findByStatusName(statusName).orElseGet(() -> {
+            TransferStatus status = new TransferStatus();
             status.setStatusName(statusName);
-            return productStatusRepository.save(status);
+            return transferStatusRepository.save(status);
         });
     }
 }

@@ -1,7 +1,7 @@
 package org.marketplace.marketplace.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.marketplace.marketplace.project.model.ProductStatus;
+import org.marketplace.marketplace.project.model.TransferStatus;
 import org.marketplace.marketplace.project.model.User;
 import org.marketplace.marketplace.project.repository.UserRepository;
 import org.marketplace.marketplace.project.service.TransferService;
@@ -38,9 +38,9 @@ public class MyTransfersController {
             model.addAttribute("pendingProducts", Collections.emptyList());
         } else {
             model.addAttribute("approvedProducts",
-                    transferService.getProductsByUserAndStatus(userId, ProductStatus.APPROVED));
+                    transferService.getProductsByUserAndStatus(userId, TransferStatus.APPROVED));
             model.addAttribute("pendingProducts",
-                    transferService.getProductsByUserAndStatus(userId, ProductStatus.PENDING));
+                    transferService.getProductsByUserAndStatus(userId, TransferStatus.PENDING));
         }
         return "my-products";
     }

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "products")
+@Table(name = "transfers")
 public class Transfer {
 
     @Id
@@ -36,8 +36,8 @@ public class Transfer {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "condition_id",
-            foreignKey = @ForeignKey(name = "fk_products_condition"))
-    private ProductCondition condition;
+            foreignKey = @ForeignKey(name = "fk_transfer_condition"))
+    private TransferCondition condition;
 
     @Column(name = "image_path", length = 500)
     private String imagePath;
@@ -53,12 +53,12 @@ public class Transfer {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "status_id", nullable = false,
-            foreignKey = @ForeignKey(name = "fk_products_status"))
-    private ProductStatus status;
+            foreignKey = @ForeignKey(name = "fk_transfer_status"))
+    private TransferStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",
-            foreignKey = @ForeignKey(name = "fk_products_user"))
+            foreignKey = @ForeignKey(name = "fk_transfer_user"))
     private User user;
 
     @CreationTimestamp

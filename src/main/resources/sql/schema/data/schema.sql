@@ -1,24 +1,24 @@
 -- Создание таблицы статусов модерации
-CREATE TABLE IF NOT EXISTS product_statuses (
+CREATE TABLE IF NOT EXISTS transfer_statuses (
                                                 id BIGSERIAL PRIMARY KEY,
                                                 name VARCHAR(20) NOT NULL UNIQUE
 );
 
-INSERT INTO product_statuses (id, name) VALUES (1, 'PENDING') ON CONFLICT (name) DO NOTHING;
-INSERT INTO product_statuses (id, name) VALUES (2, 'APPROVED') ON CONFLICT (name) DO NOTHING;
-INSERT INTO product_statuses (id, name) VALUES (3, 'REJECTED') ON CONFLICT (name) DO NOTHING;
+INSERT INTO transfer_statuses (id, name) VALUES (1, 'PENDING') ON CONFLICT (name) DO NOTHING;
+INSERT INTO transfer_statuses (id, name) VALUES (2, 'APPROVED') ON CONFLICT (name) DO NOTHING;
+INSERT INTO transfer_statuses (id, name) VALUES (3, 'REJECTED') ON CONFLICT (name) DO NOTHING;
 
 -- Создание таблицы состояний товара (Новое / Б/у)
-CREATE TABLE IF NOT EXISTS product_conditions (
+CREATE TABLE IF NOT EXISTS transfer_conditions (
                                                   id   BIGSERIAL PRIMARY KEY,
                                                   name VARCHAR(50) NOT NULL UNIQUE
 );
 
-INSERT INTO product_conditions (id, name) VALUES (1, 'Новое') ON CONFLICT (name) DO NOTHING;
-INSERT INTO product_conditions (id, name) VALUES (2, 'Б/у')  ON CONFLICT (name) DO NOTHING;
+INSERT INTO transfer_conditions (id, name) VALUES (1, 'Легионер') ON CONFLICT (name) DO NOTHING;
+INSERT INTO transfer_conditions (id, name) VALUES (2, 'Местный')  ON CONFLICT (name) DO NOTHING;
 
 -- Создание таблицы products с внешними ключами на статусы и состояния
-CREATE TABLE IF NOT EXISTS products (
+CREATE TABLE IF NOT EXISTS transfers (
                                         id BIGSERIAL PRIMARY KEY,
                                         title VARCHAR(200) NOT NULL,
                                         price INTEGER NOT NULL,
@@ -33,17 +33,17 @@ CREATE TABLE IF NOT EXISTS products (
                                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                         user_id BIGINT NOT NULL,
-                                        CONSTRAINT fk_products_status FOREIGN KEY (status_id) REFERENCES product_statuses(id),
-                                        CONSTRAINT fk_products_condition FOREIGN KEY (condition_id) REFERENCES product_conditions(id)
+                                        CONSTRAINT fk_transfers_status FOREIGN KEY (status_id) REFERENCES transfer_statuses (id),
+                                        CONSTRAINT fk_transfers_condition FOREIGN KEY (condition_id) REFERENCES transfer_conditions (id)
 );
 
 -- Создание индексов для ускорения поиска
-CREATE INDEX IF NOT EXISTS idx_products_title ON products(title);
-CREATE INDEX IF NOT EXISTS idx_products_region ON products(region);
-CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
-CREATE INDEX IF NOT EXISTS idx_products_price ON products(price);
-CREATE INDEX IF NOT EXISTS idx_products_condition ON products(condition_id);
-CREATE INDEX IF NOT EXISTS idx_products_status ON products(status_id);
+CREATE INDEX IF NOT EXISTS idx_transfers_title ON transfers(title);
+CREATE INDEX IF NOT EXISTS idx_transfers_region ON transfers(region);
+CREATE INDEX IF NOT EXISTS idx_transfers_category ON transfers(category);
+CREATE INDEX IF NOT EXISTS idx_transfers_price ON transfers(price);
+CREATE INDEX IF NOT EXISTS idx_transfers_condition ON transfers(condition_id);
+CREATE INDEX IF NOT EXISTS idx_transfers_status ON transfers(status_id);
 
 
 CREATE TABLE categories (
