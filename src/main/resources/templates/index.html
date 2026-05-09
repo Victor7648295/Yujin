@@ -42,36 +42,44 @@
             <!-- ДОБАВЛЕНА ФОРМА -->
             <form id="filterForm" action="/filter" method="get">
 
-                <label>Цена</label>
-                <div class="price-row">
-                    <input type="number" name="priceFrom" id="priceFrom" th:value="${priceFrom}" placeholder="От">
-                    <input type="number" name="priceTo" id="priceTo" th:value="${priceTo}" placeholder="До">
+                <div class="filter-field">
+                    <label>Цена</label>
+                    <div class="price-row">
+                        <input type="number" name="priceFrom" id="priceFrom" th:value="${priceFrom}" placeholder="От">
+                        <input type="number" name="priceTo" id="priceTo" th:value="${priceTo}" placeholder="До">
+                    </div>
                 </div>
 
-                <label>Регион</label>
-                <select name="region" id="regionFilter">
-                    <option value="">Все регионы</option>
-                    <option th:each="region : ${regions}"
-                            th:value="${region}"
-                            th:text="${region}"
-                            th:selected="${region == selectedRegion}"></option>
-                </select>
+                <div class="filter-field">
+                    <label>Регион</label>
+                    <select name="region" id="regionFilter">
+                        <option value="">Все регионы</option>
+                        <option th:each="region : ${regions}"
+                                th:value="${region}"
+                                th:text="${region}"
+                                th:selected="${region == selectedRegion}"></option>
+                    </select>
+                </div>
 
-                <label>Категория</label>
-                <select name="category" id="categoryFilter">
-                    <option value="">Все категории</option>
-                    <option th:each="category : ${categories}"
-                            th:value="${category}"
-                            th:text="${category}"
-                            th:selected="${category == selectedCategory}"></option>
-                </select>
+                <div class="filter-field">
+                    <label>Категория</label>
+                    <select name="category" id="categoryFilter">
+                        <option value="">Все категории</option>
+                        <option th:each="category : ${categories}"
+                                th:value="${category}"
+                                th:text="${category}"
+                                th:selected="${category == selectedCategory}"></option>
+                    </select>
+                </div>
 
-                <label>Состояние</label>
-                <div class="condition-row">
-                    <button type="button" class="condition-btn" data-value="Новое"
-                            th:classappend="${selectedCondition == 'Новое'} ? 'active'">Новое</button>
-                    <button type="button" class="condition-btn" data-value="Б/у"
-                            th:classappend="${selectedCondition == 'Б/у'} ? 'active'">Б/у</button>
+                <div class="filter-field">
+                    <label>Состояние</label>
+                    <div class="condition-row">
+                        <button type="button" class="condition-btn" data-value="Новое"
+                                th:classappend="${selectedCondition == 'Новое'} ? 'active'">Новое</button>
+                        <button type="button" class="condition-btn" data-value="Б/у"
+                                th:classappend="${selectedCondition == 'Б/у'} ? 'active'">Б/у</button>
+                    </div>
                 </div>
 
                 <!-- Скрытое поле для состояния -->
@@ -87,8 +95,6 @@
 
     <!-- ТОВАРЫ -->
     <main class="products-wrapper">
-        <h2>Все объявления</h2>
-
         <div id="productsList">
             <div class="product-card" th:each="product : ${products}"
                  th:data-price="${product.price}"

@@ -40,14 +40,15 @@ body {
 
 .layout {
     display: flex;
-    gap: 40px;
+    flex-direction: column;
+    gap: 20px;
     padding: 40px;
 }
 
 /* FILTERS */
 
 .filters-wrapper {
-    width: 280px;
+    width: 100%;
 }
 
 .filters {
@@ -55,13 +56,28 @@ body {
     padding: 25px;
     border-radius: 25px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    margin-top: 60px;
+}
+
+.filters form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+}
+
+.filter-field {
+    flex: 1 1 200px;
+    min-width: 0;
 }
 
 .filters label {
     display: block;
-    margin-top: 20px;
-    margin-bottom: 5px;
+    margin: 0 0 5px;
+}
+
+.filters .full {
+    flex-basis: 100%;
+    margin-top: 5px;
 }
 
 .price-row {
@@ -157,17 +173,17 @@ body {
 }
 
 #productsList {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 20px;
-    align-items: flex-start;
+    align-items: stretch;
 }
 
 .product-card {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: 260px;
+    width: auto;
     background: white;
     padding: 20px;
     border: 1px solid #ccc;
