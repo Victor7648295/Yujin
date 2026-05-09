@@ -53,9 +53,14 @@ body {
 
 .filters {
     background: white;
-    padding: 25px;
+    padding: 10px 25px;
     border-radius: 25px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.filters h3 {
+    text-align: center;
+    margin-bottom: 25px;
 }
 
 .filters form {
@@ -174,7 +179,7 @@ body {
 
 #productsList {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 20px;
     align-items: stretch;
 }
@@ -266,6 +271,9 @@ button {
 ========================= */
 
 .ad-page {
+    background: white;
+    border-radius: 25px;
+    margin: 40px;
     padding: 50px 80px;
 }
 

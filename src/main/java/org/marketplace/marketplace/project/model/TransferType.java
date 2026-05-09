@@ -14,9 +14,9 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "transfer_conditions")
+@Table(name = "transfer_type")
 @ToString
-public class TransferCondition {
+public class TransferType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

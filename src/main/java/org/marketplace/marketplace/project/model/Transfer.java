@@ -37,7 +37,7 @@ public class Transfer {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "condition_id",
             foreignKey = @ForeignKey(name = "fk_transfer_condition"))
-    private TransferCondition condition;
+    private TransferType condition;
 
     @Column(name = "image_path", length = 500)
     private String imagePath;
