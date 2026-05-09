@@ -36,61 +36,42 @@
 
     <!-- МОИ ОБЪЯВЛЕНИЯ -->
     <h2 class="section-title">
-        Мои объявления <span th:text="${approvedProducts.size()}">0</span>
+        Мои объявления <span th:text="${userProducts.size()}">0</span>
     </h2>
 
-    <div th:if="${approvedProducts.empty}" class="empty-message">
-        <p>У вас пока нет одобренных объявлений</p>
+    <div th:if="${userProducts.empty}" class="empty-message">
+        <p>У вас пока нет объявлений</p>
     </div>
 
-    <div class="ad-card" th:each="product : ${approvedProducts}">
+    <div class="ad-card" th:each="product : ${userProducts}">
         <img th:src="${product.imagePath}" th:alt="${product.title}" alt="ad image">
 
         <div class="ad-info">
             <h3 th:text="${product.title}">Название</h3>
-            <div class="price" th:text="${product.price} + ' р'">0 р</div>
 
             <div class="meta">
-                <span th:text="${product.condition?.name}">Б/у</span> <br>
-                <span th:text="${product.region}">Регион</span>
+                <p class="ad-field">
+                    <span class="ad-label">Статус:</span>
+                    <span th:text="${product.status?.description}">Статус</span>
+                </p>
+                <p class="ad-field">
+                    <span class="ad-label">Тип:</span>
+                    <span th:text="${product.condition?.name}">Тип</span>
+                </p>
+                <p class="ad-field">
+                    <span class="ad-label">Регион:</span>
+                    <span th:text="${product.region}">Регион</span>
+                </p>
+                <p class="ad-field">
+                    <span class="ad-label">Цена:</span>
+                    <span th:text="${product.price} + ' р'">0 р</span>
+                </p>
             </div>
         </div>
 
         <div class="ad-actions">
             <a th:href="@{'/product/edit/' + ${product.id}}" class="btn-green">Редактировать</a>
-            <form th:action="@{'/product/delete/' + ${product.id}}" method="post" style="display:inline">
-                <button type="submit" class="btn-red"
-                        onclick="return confirm('Удалить объявление?');">Удалить</button>
-            </form>
-        </div>
-    </div>
-
-
-    <!-- НА МОДЕРАЦИИ -->
-    <h2 class="section-title">
-        На модерации <span th:text="${pendingProducts.size()}">0</span>
-    </h2>
-
-    <div th:if="${pendingProducts.empty}" class="empty-message">
-        <p>Нет объявлений, ожидающих модерации</p>
-    </div>
-
-    <div class="ad-card" th:each="product : ${pendingProducts}">
-        <img th:src="${product.imagePath}" th:alt="${product.title}" alt="ad image">
-
-        <div class="ad-info">
-            <h3 th:text="${product.title}">Название</h3>
-            <div class="price" th:text="${product.price} + ' р'">0 р</div>
-
-            <div class="meta">
-                <span th:text="${product.condition?.name}">Б/у</span> <br>
-                <span th:text="${product.region}">Регион</span>
-            </div>
-        </div>
-
-        <div class="ad-actions">
-            <a th:href="@{'/product/edit/' + ${product.id}}" class="btn-green">Редактировать</a>
-            <form th:action="@{'/product/delete/' + ${product.id}}" method="post" style="display:inline">
+            <form th:action="@{'/product/delete/' + ${product.id}}" method="post">
                 <button type="submit" class="btn-red"
                         onclick="return confirm('Удалить объявление?');">Удалить</button>
             </form>

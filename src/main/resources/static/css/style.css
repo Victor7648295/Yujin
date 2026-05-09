@@ -552,6 +552,7 @@ button {
 .section-title {
     margin: 30px 0 20px;
     font-size: 24px;
+    color: white;
 }
 
 /* Карточка объявления */
@@ -580,17 +581,31 @@ button {
 
 .ad-info h3 {
     margin: 0 0 10px;
-    font-size: 22px;
+    font-size: 26px;
 }
 
 .price {
-    font-size: 20px;
+    font-size: 22px;
     margin-bottom: 15px;
 }
 
 .meta {
     color: #444;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.ad-info .ad-label {
+    flex: 0 0 70px;
+}
+
+.ad-info .ad-field {
     font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.ad-actions .btn-red {
+    width: 100%;
 }
 
 /* Кнопки справа */
@@ -605,10 +620,12 @@ button {
     background: red;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 25px;
     border-radius: 10px;
     cursor: pointer;
     transition: 0.3s;
+    font-family: inherit;
+    font-size: 16px;
 }
 
 .btn-red:hover {

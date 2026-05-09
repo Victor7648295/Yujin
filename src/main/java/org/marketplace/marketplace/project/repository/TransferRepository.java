@@ -88,6 +88,9 @@ public interface TransferRepository extends JpaRepository<Transfer, Long> {
     // Объявления пользователя по статусу (для страницы "Мои объявления")
     List<Transfer> findByUser_IdAndStatus_StatusName(Long userId, String statusName);
 
+    // Все объявления пользователя, отсортированные по статусу
+    List<Transfer> findByUser_IdOrderByStatus_StatusNameAsc(Long userId);
+
     // Объявления, опубликованные в диапазоне дат (для отчёта)
     @Query("SELECT p FROM Transfer p WHERE p.createdAt >= :from AND p.createdAt < :to " +
             "ORDER BY p.status.statusName ASC, p.createdAt DESC")

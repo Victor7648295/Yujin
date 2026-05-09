@@ -1,7 +1,6 @@
 package org.marketplace.marketplace.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.marketplace.marketplace.project.model.TransferStatus;
 import org.marketplace.marketplace.project.model.User;
 import org.marketplace.marketplace.project.repository.UserRepository;
 import org.marketplace.marketplace.project.service.TransferService;
@@ -13,9 +12,8 @@ import java.security.Principal;
 import java.util.Collections;
 
 /**
- * Личный кабинет пользователя (/my-products): показывает его
- * объявления, разделённые на одобренные (APPROVED) и ожидающие
- * модерацию (PENDING).
+ * Личный кабинет пользователя (/my-products): показывает все объявления
+ * пользователя, отсортированные по статусу.
  */
 @Controller
 @RequiredArgsConstructor
@@ -34,13 +32,9 @@ public class MyTransfersController {
                 .orElse(null);
 
         if (userId == null) {
-            model.addAttribute("approvedProducts", Collections.emptyList());
-            model.addAttribute("pendingProducts", Collections.emptyList());
+            model.addAttribute("userProducts", Collections.emptyList());
         } else {
-            model.addAttribute("approvedProducts",
-                    transferService.getProductsByUserAndStatus(userId, TransferStatus.APPROVED));
-            model.addAttribute("pendingProducts",
-                    transferService.getProductsByUserAndStatus(userId, TransferStatus.PENDING));
+            model.addAttribute("userProducts", transferService.getProductsByUser(userId));
         }
         return "my-products";
     }

@@ -67,13 +67,13 @@
                    th:value="${product.price}"
                    placeholder="Введите цену" min="0" step="1" required>
 
-            <!-- Состояние -->
-            <label>Состояние</label>
+            <!-- Тип -->
+            <label>Тип</label>
             <div class="condition-switch">
-                <button type="button" class="condition-btn" data-value="Новое"
-                        th:classappend="${product.condition?.name == 'Новое'} ? 'active'">Новое</button>
-                <button type="button" class="condition-btn" data-value="Б/у"
-                        th:classappend="${product.condition?.name == 'Б/у'} ? 'active'">Б/у</button>
+                <button type="button" class="condition-btn" data-value="Международный"
+                        th:classappend="${product.condition?.name == 'Международный'} ? 'active'">Международный</button>
+                <button type="button" class="condition-btn" data-value="Местный"
+                        th:classappend="${product.condition?.name == 'Местный'} ? 'active'">Местный</button>
             </div>
             <input type="hidden" name="condition" id="conditionValue"
                    th:value="${product.condition?.name}" required>
@@ -88,8 +88,8 @@
                         th:selected="${reg == product.region}"></option>
             </select>
 
-            <!-- Имя продавца -->
-            <label>Имя продавца</label>
+            <!-- Контактное лицо -->
+            <label>Контактное лицо</label>
             <input type="text" name="sellerName" th:value="${product.sellerName}"
                    placeholder="Введите имя">
 

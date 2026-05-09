@@ -154,6 +154,13 @@ public class TransferService {
         return transferRepository.findByUser_IdAndStatus_StatusName(userId, statusName);
     }
 
+    public List<Transfer> getProductsByUser(Long userId) {
+        if (userId == null) {
+            return new ArrayList<>();
+        }
+        return transferRepository.findByUser_IdOrderByStatus_StatusNameAsc(userId);
+    }
+
     public List<Transfer> searchByName(String query) {
         if (query == null || query.isEmpty()) {
             return new ArrayList<>();
