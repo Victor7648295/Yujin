@@ -12,6 +12,7 @@ body {
 /* HEADER */
 
 .header {
+    position: relative;
     background: #000;
     color: white;
     display: flex;
@@ -29,6 +30,13 @@ body {
 .logo a {
     color: white;
     text-decoration: none;
+}
+
+.search {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .search input {
@@ -249,11 +257,16 @@ button {
 }
 
 .btn-dark {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
     background: #555;
     color: white;
     border: none;
     padding: 8px 20px;
     border-radius: 20px;
+    font-family: inherit;
+    font-size: 14px;
 }
 
 .btn-dark:hover {
@@ -279,12 +292,13 @@ button {
 
 .ad-main {
     display: flex;
-    gap: 60px;
+    gap: 30px;
     margin-bottom: 50px;
+    align-items: flex-start;
 }
 
 .ad-image img {
-    width: 450px;
+    width: 220px;
     border-radius: 15px;
 }
 
@@ -292,30 +306,20 @@ button {
     flex: 1;
 }
 
-.ad-price {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
 .ad-details h1 {
     font-size: 32px;
     margin-bottom: 20px;
 }
 
-.ad-category {
+.ad-field {
+    display: flex;
+    gap: 10px;
     font-size: 18px;
     margin-bottom: 10px;
 }
 
-.ad-location {
-    color: #555;
-    margin-bottom: 40px;
-}
-
-.seller p {
-    font-size: 18px;
-    margin-bottom: 15px;
+.ad-label {
+    flex: 0 0 170px;
 }
 
 .call-btn {
@@ -340,6 +344,13 @@ button {
     display: flex;
     align-items: center;
     gap: 25px;
+}
+
+.header-actions .btn-green {
+    min-width: 170px;
+    padding: 8px 16px;
+    font-size: 14px;
+    text-align: center;
 }
 
 .profile-link {
