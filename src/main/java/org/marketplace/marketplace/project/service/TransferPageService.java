@@ -1,8 +1,8 @@
 package org.marketplace.marketplace.project.service;
 
 import lombok.RequiredArgsConstructor;
-import org.marketplace.marketplace.project.model.Product;
-import org.marketplace.marketplace.project.repository.ProductRepository;
+import org.marketplace.marketplace.project.model.Transfer;
+import org.marketplace.marketplace.project.repository.TransferRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,11 +13,11 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
-public class ProductPageService {
+public class TransferPageService {
 
-    private final ProductRepository productRepository;
+    private final TransferRepository transferRepository;
 
-    public Optional<Product> getProduct(Long id) {
-        return productRepository.findById(id);
+    public Optional<Transfer> getProduct(Long id) {
+        return transferRepository.findById(id);
     }
 }

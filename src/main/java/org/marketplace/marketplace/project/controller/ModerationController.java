@@ -1,8 +1,8 @@
 package org.marketplace.marketplace.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.marketplace.marketplace.project.model.Product;
-import org.marketplace.marketplace.project.service.ProductService;
+import org.marketplace.marketplace.project.model.Transfer;
+import org.marketplace.marketplace.project.service.TransferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,11 +24,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ModerationController {
 
-    private final ProductService productService;
+    private final TransferService transferService;
 
     @GetMapping
     public String listPending(Model model) {
-        List<Product> pending = productService.getPendingProducts();
+        List<Transfer> pending = transferService.getPendingProducts();
         model.addAttribute("products", pending);
         model.addAttribute("count", pending.size());
         return "admin/moderation";
@@ -36,17 +36,17 @@ public class ModerationController {
 
     @GetMapping("/details/{id}")
     public String details(@PathVariable Long id, Model model) {
-        Optional<Product> product = productService.getProductById(id);
-        if (product.isEmpty()) {
+        Optional<Transfer> transfer = transferService.getProductById(id);
+        if (transfer.isEmpty()) {
             return "redirect:/admin/moderation";
         }
-        model.addAttribute("product", product.get());
+        model.addAttribute("product", transfer.get());
         return "product-page";
     }
 
     @PostMapping("/approve/{id}")
     public String approve(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        if (productService.approveProduct(id)) {
+        if (transferService.approveProduct(id)) {
             redirectAttributes.addFlashAttribute("successMessage", "Объявление одобрено");
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Объявление не найдено");
@@ -56,7 +56,7 @@ public class ModerationController {
 
     @PostMapping("/reject/{id}")
     public String reject(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        if (productService.rejectProduct(id)) {
+        if (transferService.rejectProduct(id)) {
             redirectAttributes.addFlashAttribute("successMessage", "Объявление отклонено");
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Объявление не найдено");

@@ -1,10 +1,10 @@
 package org.marketplace.marketplace.project.service;
 
 import lombok.RequiredArgsConstructor;
-import org.marketplace.marketplace.project.model.Product;
 import org.marketplace.marketplace.project.model.ProductStatus;
 import org.marketplace.marketplace.project.model.ReportData;
-import org.marketplace.marketplace.project.repository.ProductRepository;
+import org.marketplace.marketplace.project.model.Transfer;
+import org.marketplace.marketplace.project.repository.TransferRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,7 +24,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReportService {
 
-    private final ProductRepository productRepository;
+    private final TransferRepository transferRepository;
 
     public ReportData generate(LocalDate from, LocalDate to) {
         if (from == null || to == null) {
@@ -36,9 +36,9 @@ public class ReportService {
 
         LocalDateTime start = from.atStartOfDay();
         LocalDateTime endExclusive = to.plusDays(1).atStartOfDay();
-        List<Product> products = productRepository.findPublishedBetween(start, endExclusive);
+        List<Transfer> transfers = transferRepository.findPublishedBetween(start, endExclusive);
 
-        Map<String, List<Product>> groups = new LinkedHashMap<>();
+        Map<String, List<Transfer>> groups = new LinkedHashMap<>();
         groups.put(ProductStatus.PENDING, new ArrayList<>());
         groups.put(ProductStatus.APPROVED, new ArrayList<>());
         groups.put(ProductStatus.REJECTED, new ArrayList<>());
@@ -48,7 +48,7 @@ public class ReportService {
         descriptions.put(ProductStatus.APPROVED, "Активное объявление");
         descriptions.put(ProductStatus.REJECTED, "Отклонено модерацией");
 
-        for (Product p : products) {
+        for (Transfer p : transfers) {
             String status = (p.getStatus() != null && p.getStatus().getStatusName() != null)
                     ? p.getStatus().getStatusName()
                     : "UNKNOWN";
@@ -61,6 +61,6 @@ public class ReportService {
             }
         }
 
-        return new ReportData(from, to, products.size(), groups, descriptions);
+        return new ReportData(from, to, transfers.size(), groups, descriptions);
     }
 }

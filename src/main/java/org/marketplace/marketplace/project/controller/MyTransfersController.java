@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.marketplace.marketplace.project.model.ProductStatus;
 import org.marketplace.marketplace.project.model.User;
 import org.marketplace.marketplace.project.repository.UserRepository;
-import org.marketplace.marketplace.project.service.ProductService;
+import org.marketplace.marketplace.project.service.TransferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +19,9 @@ import java.util.Collections;
  */
 @Controller
 @RequiredArgsConstructor
-public class MyProductsController {
+public class MyTransfersController {
 
-    private final ProductService productService;
+    private final TransferService transferService;
     private final UserRepository userRepository;
 
     @GetMapping("/my-products")
@@ -38,9 +38,9 @@ public class MyProductsController {
             model.addAttribute("pendingProducts", Collections.emptyList());
         } else {
             model.addAttribute("approvedProducts",
-                    productService.getProductsByUserAndStatus(userId, ProductStatus.APPROVED));
+                    transferService.getProductsByUserAndStatus(userId, ProductStatus.APPROVED));
             model.addAttribute("pendingProducts",
-                    productService.getProductsByUserAndStatus(userId, ProductStatus.PENDING));
+                    transferService.getProductsByUserAndStatus(userId, ProductStatus.PENDING));
         }
         return "my-products";
     }

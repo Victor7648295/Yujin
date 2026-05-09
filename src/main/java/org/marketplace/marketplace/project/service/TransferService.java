@@ -2,10 +2,10 @@ package org.marketplace.marketplace.project.service;
 
 
 import lombok.RequiredArgsConstructor;
-import org.marketplace.marketplace.project.model.Product;
 import org.marketplace.marketplace.project.model.ProductStatus;
-import org.marketplace.marketplace.project.repository.ProductRepository;
+import org.marketplace.marketplace.project.model.Transfer;
 import org.marketplace.marketplace.project.repository.ProductStatusRepository;
+import org.marketplace.marketplace.project.repository.TransferRepository;
 import org.marketplace.marketplace.project.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,9 +33,9 @@ import java.util.UUID;
  */
 @Service
 @RequiredArgsConstructor
-public class ProductService {
+public class TransferService {
 
-    private final ProductRepository productRepository;
+    private final TransferRepository transferRepository;
     private final ProductStatusRepository productStatusRepository;
     private final UserRepository userRepository;
 
@@ -43,26 +43,26 @@ public class ProductService {
     private static final int CORNER_RADIUS = 40;
     private static final Path IMAGE_DIR = Paths.get("src", "main", "resources", "static", "img");
 
-    public List<Product> getAllProducts() {
-        return productRepository.findByStatusId(2L);
+    public List<Transfer> getAllProducts() {
+        return transferRepository.findByStatusId(2L);
     }
 
-    public Optional<Product> getProductById(Long id) {
-        return productRepository.findById(id);
+    public Optional<Transfer> getProductById(Long id) {
+        return transferRepository.findById(id);
     }
 
-    public Product createProduct(Product product, Long userId, MultipartFile photo) {
+    public Transfer createProduct(Transfer transfer, Long userId, MultipartFile photo) {
         if (userId != null) {
-            userRepository.findById(userId).ifPresent(product::setUser);
+            userRepository.findById(userId).ifPresent(transfer::setUser);
         }
         String savedPath = saveImage(photo);
         if (savedPath != null) {
-            product.setImagePath(savedPath);
+            transfer.setImagePath(savedPath);
         }
-        if (product.getStatus() == null) {
-            product.setStatus(getOrCreateStatus(ProductStatus.PENDING));
+        if (transfer.getStatus() == null) {
+            transfer.setStatus(getOrCreateStatus(ProductStatus.PENDING));
         }
-        return productRepository.save(product);
+        return transferRepository.save(transfer);
     }
 
     private String saveImage(MultipartFile photo) {
@@ -98,71 +98,71 @@ public class ProductService {
         }
     }
 
-    public Optional<Product> updateProduct(Long id, Product updatedProduct, MultipartFile photo) {
-        return productRepository.findById(id).map(existing -> {
-            existing.setTitle(updatedProduct.getTitle());
-            existing.setPrice(updatedProduct.getPrice());
-            existing.setRegion(updatedProduct.getRegion());
-            existing.setCategory(updatedProduct.getCategory());
-            existing.setCondition(updatedProduct.getCondition());
-            existing.setPhone(updatedProduct.getPhone());
-            existing.setDescription(updatedProduct.getDescription());
-            existing.setSellerName(updatedProduct.getSellerName());
+    public Optional<Transfer> updateProduct(Long id, Transfer updatedTransfer, MultipartFile photo) {
+        return transferRepository.findById(id).map(existing -> {
+            existing.setTitle(updatedTransfer.getTitle());
+            existing.setPrice(updatedTransfer.getPrice());
+            existing.setRegion(updatedTransfer.getRegion());
+            existing.setCategory(updatedTransfer.getCategory());
+            existing.setCondition(updatedTransfer.getCondition());
+            existing.setPhone(updatedTransfer.getPhone());
+            existing.setDescription(updatedTransfer.getDescription());
+            existing.setSellerName(updatedTransfer.getSellerName());
             String savedPath = saveImage(photo);
             if (savedPath != null) {
                 existing.setImagePath(savedPath);
             }
-            return productRepository.save(existing);
+            return transferRepository.save(existing);
         });
     }
 
     public boolean deleteProduct(Long id) {
-        if (productRepository.existsById(id)) {
-            productRepository.deleteById(id);
+        if (transferRepository.existsById(id)) {
+            transferRepository.deleteById(id);
             return true;
         }
         return false;
     }
 
-    public List<Product> searchProducts(String region, String category,
-                                        String condition, Integer priceFrom, Integer priceTo) {
-        return productRepository.searchProducts(region, category, condition, priceFrom, priceTo);
+    public List<Transfer> searchProducts(String region, String category,
+                                         String condition, Integer priceFrom, Integer priceTo) {
+        return transferRepository.searchProducts(region, category, condition, priceFrom, priceTo);
     }
 
     public List<String> getAllRegions() {
-        return productRepository.findAllRegions();
+        return transferRepository.findAllRegions();
     }
 
     public List<String> getAllCategories() {
-        return productRepository.findAllCategories();
+        return transferRepository.findAllCategories();
     }
 
-    public List<Product> filterProducts(String region, String category,
-                                        String condition, Integer priceFrom,
-                                        Integer priceTo) {
+    public List<Transfer> filterProducts(String region, String category,
+                                         String condition, Integer priceFrom,
+                                         Integer priceTo) {
         region = (region != null && region.isEmpty()) ? null : region;
         category = (category != null && category.isEmpty()) ? null : category;
         condition = (condition != null && condition.isEmpty()) ? null : condition;
 
-        return productRepository.filterProducts(region, category, condition, priceFrom, priceTo);
+        return transferRepository.filterProducts(region, category, condition, priceFrom, priceTo);
     }
 
-    public List<Product> getProductsByUserAndStatus(Long userId, String statusName) {
+    public List<Transfer> getProductsByUserAndStatus(Long userId, String statusName) {
         if (userId == null) {
             return new ArrayList<>();
         }
-        return productRepository.findByUser_IdAndStatus_StatusName(userId, statusName);
+        return transferRepository.findByUser_IdAndStatus_StatusName(userId, statusName);
     }
 
-    public List<Product> searchByName(String query) {
+    public List<Transfer> searchByName(String query) {
         if (query == null || query.isEmpty()) {
             return new ArrayList<>();
         }
-        return productRepository.searchByTitle(query);
+        return transferRepository.searchByTitle(query);
     }
 
-    public List<Product> getPendingProducts() {
-        return productRepository.findByStatus_StatusName(ProductStatus.PENDING);
+    public List<Transfer> getPendingProducts() {
+        return transferRepository.findByStatus_StatusName(ProductStatus.PENDING);
     }
 
     public boolean approveProduct(Long id) {
@@ -173,10 +173,10 @@ public class ProductService {
         return changeStatus(id, ProductStatus.REJECTED);
     }
 
-    private boolean changeStatus(Long productId, String statusName) {
-        return productRepository.findById(productId).map(product -> {
-            product.setStatus(getOrCreateStatus(statusName));
-            productRepository.save(product);
+    private boolean changeStatus(Long transferId, String statusName) {
+        return transferRepository.findById(transferId).map(transfer -> {
+            transfer.setStatus(getOrCreateStatus(statusName));
+            transferRepository.save(transfer);
             return true;
         }).orElse(false);
     }

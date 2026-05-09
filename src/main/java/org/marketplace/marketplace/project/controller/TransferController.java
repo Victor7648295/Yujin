@@ -1,9 +1,9 @@
 package org.marketplace.marketplace.project.controller;
 
-import org.marketplace.marketplace.project.model.Product;
+import org.marketplace.marketplace.project.model.Transfer;
 import org.marketplace.marketplace.project.repository.UserRepository;
 import org.marketplace.marketplace.project.service.CategoryService;
-import org.marketplace.marketplace.project.service.ProductService;
+import org.marketplace.marketplace.project.service.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +20,10 @@ import java.util.Optional;
  * Также отдаёт телефон продавца по AJAX для модалки звонка.
  */
 @Controller
-public class ProductController {
+public class TransferController {
 
     @Autowired
-    private ProductService productService;
+    private TransferService transferService;
 
     @Autowired
     private CategoryService categoryService;
@@ -33,10 +33,10 @@ public class ProductController {
 
     @GetMapping("/")
     public String index(Model model) {
-        List<Product> products = productService.getAllProducts();
-        model.addAttribute("products", products);
-        model.addAttribute("regions", productService.getAllRegions());
-        model.addAttribute("categories", productService.getAllCategories());
+        List<Transfer> transfers = transferService.getAllProducts();
+        model.addAttribute("products", transfers);
+        model.addAttribute("regions", transferService.getAllRegions());
+        model.addAttribute("categories", transferService.getAllCategories());
         return "index";
     }
 
@@ -49,10 +49,10 @@ public class ProductController {
             @RequestParam(value = "priceTo", required = false) Integer priceTo,
             Model model) {
 
-        List<Product> products = productService.searchProducts(region, category, condition, priceFrom, priceTo);
-        model.addAttribute("products", products);
-        model.addAttribute("regions", productService.getAllRegions());
-        model.addAttribute("categories", productService.getAllCategories());
+        List<Transfer> transfers = transferService.searchProducts(region, category, condition, priceFrom, priceTo);
+        model.addAttribute("products", transfers);
+        model.addAttribute("regions", transferService.getAllRegions());
+        model.addAttribute("categories", transferService.getAllCategories());
 
         model.addAttribute("selectedRegion", region);
         model.addAttribute("selectedCategory", category);
@@ -65,8 +65,8 @@ public class ProductController {
 
     @GetMapping("/product/create")
     public String showCreateForm(Model model, Principal principal) {
-        model.addAttribute("product", new Product());
-        model.addAttribute("regions", productService.getAllRegions());
+        model.addAttribute("product", new Transfer());
+        model.addAttribute("regions", transferService.getAllRegions());
         model.addAttribute("categories", categoryService.getAllCategories());
         Long currentUserId = (principal == null) ? null
                 : userRepository.findByEmail(principal.getName())
@@ -76,20 +76,20 @@ public class ProductController {
     }
 
     @PostMapping("/product/create")
-    public String createProduct(@ModelAttribute Product product,
+    public String createProduct(@ModelAttribute Transfer transfer,
                                 @RequestParam(value = "userId", required = false) Long userId,
                                 @RequestParam(value = "photo", required = false) MultipartFile photo) {
-        productService.createProduct(product, userId, photo);
+        transferService.createProduct(transfer, userId, photo);
         return "redirect:/";
     }
 
     @GetMapping("/product/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        Optional<Product> product = productService.getProductById(id);
-        if (product.isPresent()) {
-            model.addAttribute("product", product.get());
-            model.addAttribute("regions", productService.getAllRegions());
-            model.addAttribute("categories", productService.getAllCategories());
+        Optional<Transfer> transfer = transferService.getProductById(id);
+        if (transfer.isPresent()) {
+            model.addAttribute("product", transfer.get());
+            model.addAttribute("regions", transferService.getAllRegions());
+            model.addAttribute("categories", transferService.getAllCategories());
             return "edit-product";
         }
         return "redirect:/";
@@ -97,23 +97,23 @@ public class ProductController {
 
     @PostMapping("/product/edit/{id}")
     public String updateProduct(@PathVariable Long id,
-                                @ModelAttribute Product product,
+                                @ModelAttribute Transfer transfer,
                                 @RequestParam(value = "photo", required = false) MultipartFile photo) {
-        productService.updateProduct(id, product, photo);
+        transferService.updateProduct(id, transfer, photo);
         return "redirect:/my-products";
     }
 
     @PostMapping("/product/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+        transferService.deleteProduct(id);
         return "redirect:/my-products";
     }
 
     @GetMapping("/api/product/{id}/phone")
     @ResponseBody
     public String getPhoneNumber(@PathVariable Long id) {
-        Optional<Product> product = productService.getProductById(id);
-        return product.map(Product::getPhone).orElse("");
+        Optional<Transfer> transfer = transferService.getProductById(id);
+        return transfer.map(Transfer::getPhone).orElse("");
     }
 
     @GetMapping("/search-by-name")
@@ -121,11 +121,11 @@ public class ProductController {
             @RequestParam(required = false) String query,
             Model model) {
 
-        List<Product> products = productService.searchByName(query);
+        List<Transfer> transfers = transferService.searchByName(query);
 
-        model.addAttribute("products", products);
-        model.addAttribute("regions", productService.getAllRegions());
-        model.addAttribute("categories", productService.getAllCategories());
+        model.addAttribute("products", transfers);
+        model.addAttribute("regions", transferService.getAllRegions());
+        model.addAttribute("categories", transferService.getAllCategories());
         model.addAttribute("searchQuery", query);
 
         return "index";
