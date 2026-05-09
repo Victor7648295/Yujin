@@ -4,38 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Вход</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" href="css/style.css">
-    <style>
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            border: 1px solid #f5c6cb;
-        }
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            border: 1px solid #c3e6cb;
-        }
-        .register-btn {
-            margin-top: 10px;
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-        }
-        .register-btn:hover {
-            background-color: #5a6268;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
 </head>
 
 <body>
@@ -72,7 +41,7 @@
 
             <button type="submit" class="btn-dark full-btn">Войти</button>
 
-            <button type="button" class="register-btn" onclick="location.href='/register'">
+            <button type="button" class="btn-dark full-btn" onclick="location.href='/register'">
                 Регистрация
             </button>
         </form>

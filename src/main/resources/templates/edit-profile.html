@@ -19,7 +19,7 @@
         <a sec:authorize="!hasRole('ADMIN')" th:href="@{/product/create}" href="/product/create" class="btn-green">Подать объявление</a>
         <a sec:authorize="!hasRole('ADMIN')" th:href="@{/my-products}" href="/my-products" class="btn-green">Мои объявления</a>
         <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/moderation}" href="/admin/moderation" class="btn-green">Админ-панель</a>
-        <a th:href="@{/logout}" href="/logout" class="profile-link">Выход</a>
+        <a th:href="@{/logout}" href="/logout" class="btn-dark">Выход</a>
     </div>
 </header>
 
