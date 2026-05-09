@@ -60,21 +60,25 @@
             <label>Цена</label>
             <input type="number" id="price" name="price" placeholder="Введите цену" min="0" step="1" required>
 
-            <!-- Состояние -->
-            <label>Состояние</label>
+            <!-- Тип -->
+            <label>Тип</label>
             <div class="condition-switch">
-                <button type="button" class="condition-btn" data-value="Новое">Новое</button>
-                <button type="button" class="condition-btn" data-value="Б/у">Б/у</button>
+                <button type="button" class="condition-btn" data-value="Международный">Международный</button>
+                <button type="button" class="condition-btn" data-value="Местный">Местный</button>
             </div>
             <input type="hidden" name="condition" id="conditionValue" required>
 
             <!-- Регион -->
             <label>Местоположение</label>
-            <input type="text" name="region" placeholder="Введите местоположение"
-                   maxlength="100" required>
+            <select name="region" required>
+                <option value="" disabled selected hidden>Выберите регион</option>
+                <option th:each="reg : ${regions}"
+                        th:value="${reg}"
+                        th:text="${reg}"></option>
+            </select>
 
-            <!-- Имя продавца -->
-            <label>Имя продавца</label>
+            <!-- Контактное лицо -->
+            <label>Контактное лицо</label>
             <input type="text" name="sellerName" placeholder="Введите имя">
 
             <!-- Телефон -->
@@ -98,12 +102,28 @@
 <script>
     (function () {
         var hidden = document.getElementById('conditionValue');
-        var buttons = document.querySelectorAll('.condition-btn');
+        var buttons = document.querySelectorAll('#adForm .condition-btn');
+        if (!hidden || !buttons.length) return;
+
+        var current = hidden.value || '';
+
+        function paint() {
+            buttons.forEach(function (b) {
+                if (b.getAttribute('data-value') === current) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+        }
+
         buttons.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                buttons.forEach(function (b) { b.classList.remove('active'); });
-                btn.classList.add('active');
-                hidden.value = btn.getAttribute('data-value');
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                var val = btn.getAttribute('data-value');
+                current = (current === val) ? '' : val;
+                hidden.value = current;
+                paint();
             });
         });
 

@@ -106,9 +106,21 @@
 
                 <div class="product-info">
                     <h3 th:text="${product.title}">Название товара</h3>
-                    <p class="price" th:text="${product.price} + ' р'">200 р</p>
-                    <p th:text="${product.condition?.name}">Б/у</p>
-                    <p th:text="${product.region}">Орша</p>
+
+                    <div class="meta">
+                        <p class="ad-field">
+                            <span class="ad-label">Тип:</span>
+                            <span th:text="${product.condition?.name}">Тип</span>
+                        </p>
+                        <p class="ad-field">
+                            <span class="ad-label">Регион:</span>
+                            <span th:text="${product.region}">Регион</span>
+                        </p>
+                        <p class="ad-field">
+                            <span class="ad-label">Цена:</span>
+                            <span th:text="${product.price} + ' р'">0 р</span>
+                        </p>
+                    </div>
                 </div>
 
                 <div class="product-buttons">

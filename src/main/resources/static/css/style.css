@@ -595,13 +595,19 @@ button {
     line-height: 1.6;
 }
 
-.ad-info .ad-label {
+.ad-info .ad-label,
+.product-info .ad-label {
     flex: 0 0 70px;
 }
 
-.ad-info .ad-field {
+.ad-info .ad-field,
+.product-info .ad-field {
     font-size: 14px;
     margin-bottom: 4px;
+}
+
+.product-info .meta {
+    text-align: left;
 }
 
 .ad-actions .btn-red {
