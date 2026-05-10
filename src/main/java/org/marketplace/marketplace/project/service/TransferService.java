@@ -44,7 +44,7 @@ public class TransferService {
     private static final Path IMAGE_DIR = Paths.get("src", "main", "resources", "static", "img");
 
     public List<Transfer> getAllProducts() {
-        return transferRepository.findByStatusId(2L);
+        return transferRepository.findByStatusId(8L);
     }
 
     public Optional<Transfer> getProductById(Long id) {
