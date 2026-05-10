@@ -70,12 +70,7 @@
 
             <!-- Регион -->
             <label>Местоположение</label>
-            <select name="region" required>
-                <option value="" disabled selected hidden>Выберите регион</option>
-                <option th:each="reg : ${regions}"
-                        th:value="${reg}"
-                        th:text="${reg}"></option>
-            </select>
+            <input type="text" name="region" placeholder="Введите регион" required maxlength="100">
 
             <!-- Контактное лицо -->
             <label>Контактное лицо</label>
