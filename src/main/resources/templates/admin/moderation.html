@@ -25,27 +25,48 @@
         .empty-state {
             text-align: center;
             padding: 40px;
-            color: #7f8c8d;
+            color: white;
         }
         .admin-content h1 {
             color: white;
         }
-        .moderation-actions form {
-            display: inline;
+        #productsList {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+            align-items: stretch;
         }
-        .moderation-actions a.btn-green {
-            display: inline-block;
-            width: 180px;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
-            font-size: 15px;
-            text-align: center;
-            text-decoration: none;
+        .product-card {
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card img {
+            height: 220px;
+            object-fit: cover;
+        }
+        .product-buttons {
+            margin-top: auto;
+        }
+        .product-buttons form {
+            margin: 0;
+            display: block;
+        }
+        .product-buttons form button {
+            width: 100%;
             box-sizing: border-box;
+            padding: 10px 25px;
+            border-radius: 10px;
+            border: none;
             cursor: pointer;
-            line-height: normal;
-            vertical-align: middle;
+            font-family: inherit;
+            font-size: 16px;
+        }
+        .product-buttons .btn-yellow {
+            background: #c7b900;
+            color: black;
+        }
+        .product-buttons .btn-yellow:hover {
+            background: #a59a00;
         }
     </style>
 </head>
@@ -83,29 +104,43 @@
                 Нет объявлений, ожидающих модерации
             </div>
 
-            <!-- КАРТОЧКА ОБЪЯВЛЕНИЯ -->
-            <div th:each="product : ${products}" class="moderation-card">
+            <!-- КАРТОЧКИ ОБЪЯВЛЕНИЙ -->
+            <div id="productsList" th:unless="${#lists.isEmpty(products)}">
+                <div class="product-card" th:each="product : ${products}">
 
-                <img th:src="${product.imagePath}" th:alt="${product.title}" src="img/image 2.png" alt="Объявление">
+                    <img th:src="@{${product.imagePath}}" th:alt="${product.title}" src="img/image 2.png" alt="Объявление">
 
-                <div class="moderation-info">
-                    <h2 th:text="${product.title}">Очки виртуальной реальности</h2>
-                    <div class="price"><span th:text="${product.price}">80</span> р</div>
-                    <p th:text="${product.condition?.name}">Б/у</p>
-                    <p th:text="${product.region}">Орша, Витебская обл.</p>
+                    <div class="product-info">
+                        <h3 th:text="${product.title}">Название товара</h3>
+
+                        <div class="meta">
+                            <p class="ad-field">
+                                <span class="ad-label">Тип:</span>
+                                <span th:text="${product.condition?.name}">Тип</span>
+                            </p>
+                            <p class="ad-field">
+                                <span class="ad-label">Регион:</span>
+                                <span th:text="${product.region}">Регион</span>
+                            </p>
+                            <p class="ad-field">
+                                <span class="ad-label">Цена:</span>
+                                <span th:text="${product.price} + ' р'">0 р</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="product-buttons">
+                        <a th:href="@{/admin/moderation/details/{id}(id=${product.id})}" class="btn-green">Подробнее</a>
+                        <form th:action="@{/admin/moderation/approve/{id}(id=${product.id})}" method="post">
+                            <button type="submit" class="btn-yellow">Одобрить</button>
+                        </form>
+                        <form th:action="@{/admin/moderation/reject/{id}(id=${product.id})}" method="post"
+                              onsubmit="return confirm('Отклонить объявление?');">
+                            <button type="submit" class="btn-red">Отклонить</button>
+                        </form>
+                    </div>
+
                 </div>
-
-                <div class="moderation-actions">
-                    <a th:href="@{/admin/moderation/details/{id}(id=${product.id})}" class="btn-green">Подробнее</a>
-                    <form th:action="@{/admin/moderation/approve/{id}(id=${product.id})}" method="post">
-                        <button type="submit" class="btn-yellow">Одобрить</button>
-                    </form>
-                    <form th:action="@{/admin/moderation/reject/{id}(id=${product.id})}" method="post"
-                          onsubmit="return confirm('Отклонить объявление?');">
-                        <button type="submit" class="btn-red">Отклонить</button>
-                    </form>
-                </div>
-
             </div>
 
         </main>
