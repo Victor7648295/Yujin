@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.title}">Подробная информация</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+    <style>
+        .moderation-decision {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .moderation-decision form {
+            margin: 0;
+        }
+        .moderation-decision button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .moderation-decision .btn-green {
+            background: #0a8a0a;
+            color: white;
+        }
+        .moderation-decision .btn-green:hover {
+            background: #0c9f0c;
+        }
+        .moderation-decision .btn-red {
+            background: red;
+            color: white;
+        }
+        .moderation-decision .btn-red:hover {
+            background: darkred;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="logo">
+            <a th:href="@{/}" href="/">BSUIR TRANSFERMARKT</a>
+        </div>
+
+        <div class="header-actions">
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/moderation}" href="/admin/moderation" class="btn-green">Админ-панель</a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/profile/edit}" href="/profile/edit" class="btn-green">Редактировать профиль</a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/logout}" href="/logout" class="btn-dark">Выход</a>
+        </div>
+    </header>
+
+    <div class="ad-page">
+
+        <div class="ad-main">
+
+            <div class="ad-image">
+                <img th:src="@{${product.imagePath}}" th:alt="${product.title}">
+            </div>
+
+            <div class="ad-details">
+                <h1 th:text="${product.title}">Название товара</h1>
+
+                <p class="ad-field ad-category">
+                    <span class="ad-label">Категория:</span>
+                    <span class="ad-value" th:text="${product.category}">Электроника</span>
+                </p>
+                <p class="ad-field ad-type">
+                    <span class="ad-label">Тип:</span>
+                    <span class="ad-value" th:text="${product.condition?.name}">Местный</span>
+                </p>
+                <p class="ad-field ad-location">
+                    <span class="ad-label">Регион:</span>
+                    <span class="ad-value" th:text="${product.region}">Минск</span>
+                </p>
+                <p class="ad-field ad-price">
+                    <span class="ad-label">Цена:</span>
+                    <span class="ad-value" th:text="${product.price} + ' р'">200 р</span>
+                </p>
+
+                <div class="seller">
+                    <p class="ad-field">
+                        <span class="ad-label">Контактное лицо:</span>
+                        <span class="ad-value" th:text="${product.sellerName}">Продавец</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="ad-description">
+            <h2>Описание</h2>
+            <p th:text="${product.description}">Описание товара</p>
+        </div>
+
+        <div class="moderation-decision">
+            <form th:action="@{/admin/moderation/approve/{id}(id=${product.id})}" method="post">
+                <button type="submit" class="btn-green">Одобрить</button>
+            </form>
+            <form th:action="@{/admin/moderation/reject/{id}(id=${product.id})}" method="post"
+                  onsubmit="return confirm('Отклонить объявление?');">
+                <button type="submit" class="btn-red">Отклонить</button>
+            </form>
+        </div>
+
+    </div>
+
+    <script th:src="@{/js/modals.js}" src="/js/modals.js"></script>
+</body>
+
+</html>
