@@ -48,7 +48,7 @@
         </div>
 
         <div class="header-actions">
-            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/moderation}" href="/admin/moderation" class="btn-green">Админ-панель</a>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/moderation}" href="/admin/moderation" class="btn-green">Панель управления</a>
             <a sec:authorize="isAuthenticated()" th:href="@{/profile/edit}" href="/profile/edit" class="btn-green">Редактировать профиль</a>
             <a sec:authorize="isAuthenticated()" th:href="@{/logout}" href="/logout" class="btn-dark">Выход</a>
         </div>
