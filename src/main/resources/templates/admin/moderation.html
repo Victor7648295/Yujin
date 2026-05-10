@@ -27,8 +27,25 @@
             padding: 40px;
             color: #7f8c8d;
         }
+        .admin-content h1 {
+            color: white;
+        }
         .moderation-actions form {
             display: inline;
+        }
+        .moderation-actions a.btn-green {
+            display: inline-block;
+            width: 180px;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            font-size: 15px;
+            text-align: center;
+            text-decoration: none;
+            box-sizing: border-box;
+            cursor: pointer;
+            line-height: normal;
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -57,7 +74,7 @@
         <!-- CONTENT -->
         <main class="admin-content">
 
-            <h1>Модерация объявлений <span th:text="${count}">0</span></h1>
+            <h1>Модерация объявлений</h1>
 
             <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
             <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
