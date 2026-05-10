@@ -54,7 +54,7 @@ public interface TransferRepository extends JpaRepository<Transfer, Long> {
 
     // Сложный поиск с фильтрацией (JPQL)
     @Query("SELECT p FROM Transfer p WHERE " +
-            "p.status.id = 2 AND " +
+            "p.status.id = 8 AND " +
             "(:region IS NULL OR :region = '' OR p.region = :region) AND " +
             "(:category IS NULL OR :category = '' OR p.category = :category) AND " +
             "(:condition IS NULL OR :condition = '' OR p.condition.name = :condition) AND " +
@@ -80,7 +80,8 @@ public interface TransferRepository extends JpaRepository<Transfer, Long> {
                                   @Param("priceTo") Integer priceTo);
 
     // Поиск по названию
-    @Query("SELECT p FROM Transfer p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :query, '%'))")
+    @Query("SELECT p FROM Transfer p WHERE p.status.id = 8 AND " +
+            "LOWER(p.title) LIKE LOWER(CONCAT('%', :query, '%'))")
     List<Transfer> searchByTitle(@Param("query") String query);
 
     List<Transfer> findByStatusId(Long statusId);
