@@ -2,7 +2,6 @@ package org.marketplace.marketplace.project.service;
 
 import lombok.RequiredArgsConstructor;
 import org.marketplace.marketplace.project.model.TransferStatus;
-import org.marketplace.marketplace.project.model.ReportData;
 import org.marketplace.marketplace.project.model.Transfer;
 import org.marketplace.marketplace.project.repository.TransferRepository;
 import org.springframework.stereotype.Service;
