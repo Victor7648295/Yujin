@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories
-public class MarketPlaceApplication {
+public class TransferApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MarketPlaceApplication.class, args);
+        SpringApplication.run(TransferApplication.class, args);
     }
 
 }
