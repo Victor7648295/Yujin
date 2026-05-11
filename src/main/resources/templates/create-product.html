@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Новое объявление</title>
+    <title>Новый трансфер</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
 </head>
 
@@ -16,7 +16,7 @@
         <a th:href="@{/}" href="/">BSUIR TRANSFERMARKT</a>
     </div>
     <div class="header-actions">
-        <a sec:authorize="!hasRole('ADMIN')" th:href="@{/my-products}" href="/my-products" class="btn-green">Мои объявления</a>
+        <a sec:authorize="!hasRole('ADMIN')" th:href="@{/my-products}" href="/my-products" class="btn-green">Мои трансферы</a>
         <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/moderation}" href="/admin/moderation" class="btn-green">Панель управления</a>
         <a th:href="@{/profile/edit}" href="/profile/edit" class="btn-green">Редактировать профиль</a>
         <a th:href="@{/logout}" href="/logout" class="btn-dark">Выход</a>
@@ -27,7 +27,7 @@
 <div class="form-page">
     <div class="form-card">
 
-        <h2>Новое объявление</h2>
+        <h2>Новый трансфер</h2>
 
         <form id="adForm" th:action="@{/product/create}" th:object="${product}" method="post" enctype="multipart/form-data">
 
@@ -35,8 +35,8 @@
             <input type="hidden" name="userId" th:value="${currentUserId}">
 
             <!-- Название -->
-            <label>Название объявления</label>
-            <input type="text" name="title" placeholder="Введите название объявления" required>
+            <label>Название трансфера</label>
+            <input type="text" name="title" placeholder="Введите название трансфера" required>
 
             <!-- Категория -->
             <label>Категория</label>
@@ -82,7 +82,7 @@
 
             <!-- Кнопка -->
             <button type="submit" class="btn-green full-btn">
-                Подать объявление
+                Подать трансфер
             </button>
 
         </form>

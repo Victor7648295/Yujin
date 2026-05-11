@@ -102,7 +102,7 @@
                 <button type="submit" class="btn-green">Одобрить</button>
             </form>
             <form th:action="@{/admin/moderation/reject/{id}(id=${product.id})}" method="post"
-                  onsubmit="return confirm('Отклонить объявление?');">
+                  onsubmit="return confirm('Отклонить трансфер?');">
                 <button type="submit" class="btn-red">Отклонить</button>
             </form>
         </div>

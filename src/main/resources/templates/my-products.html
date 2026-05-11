@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Мои объявления</title>
+    <title>Мои трансферы</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
     <style>
         /* Сохранённые фото уже квадратные 200×200 с скруглением,
@@ -26,7 +26,7 @@
         <a th:href="@{/}" href="/">BSUIR TRANSFERMARKT</a>
     </div>
     <div class="header-actions">
-        <a sec:authorize="!hasRole('ADMIN')" th:href="@{/product/create}" href="/product/create" class="btn-green">Подать объявление</a>
+        <a sec:authorize="!hasRole('ADMIN')" th:href="@{/product/create}" href="/product/create" class="btn-green">Подать трансфер</a>
         <a th:href="@{/profile/edit}" href="/profile/edit" class="btn-green">Редактировать профиль</a>
         <a th:href="@{/logout}" href="/logout" class="btn-dark">Выход</a>
     </div>
@@ -34,13 +34,13 @@
 
 <div class="container">
 
-    <!-- МОИ ОБЪЯВЛЕНИЯ -->
+    <!-- МОИ ТРАНСФЕРЫ -->
     <h2 class="section-title">
-        Мои объявления <span th:text="${userProducts.size()}">0</span>
+        Мои трансферы <span th:text="${userProducts.size()}">0</span>
     </h2>
 
     <div th:if="${userProducts.empty}" class="empty-message">
-        <p>У вас пока нет объявлений</p>
+        <p>У вас пока нет трансферов</p>
     </div>
 
     <div class="ad-card" th:each="product : ${userProducts}">
@@ -73,7 +73,7 @@
             <a th:href="@{'/product/edit/' + ${product.id}}" class="btn-green">Редактировать</a>
             <form th:action="@{'/product/delete/' + ${product.id}}" method="post">
                 <button type="submit" class="btn-red"
-                        onclick="return confirm('Удалить объявление?');">Удалить</button>
+                        onclick="return confirm('Удалить трансфер?');">Удалить</button>
             </form>
         </div>
     </div>

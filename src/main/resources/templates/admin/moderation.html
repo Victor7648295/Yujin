@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Модерация объявлений</title>
+    <title>Модерация трансферов</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/admin.css">
     <style>
@@ -87,7 +87,7 @@
             <h3>Панель управления</h3>
             <ul>
                 <li><a href="/admin/users">Пользователи системы</a></li>
-                <li class="active"><a href="/admin/moderation">Модерация объявлений</a></li>
+                <li class="active"><a href="/admin/moderation">Модерация трансферов</a></li>
                 <li><a href="/admin/categories">Управление категориями</a></li>
             </ul>
         </aside>
@@ -95,20 +95,20 @@
         <!-- CONTENT -->
         <main class="admin-content">
 
-            <h1>Модерация объявлений</h1>
+            <h1>Модерация трансферов</h1>
 
             <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
             <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
 
             <div th:if="${#lists.isEmpty(products)}" class="empty-state">
-                Нет объявлений, ожидающих модерации
+                Нет трансферов, ожидающих модерации
             </div>
 
-            <!-- КАРТОЧКИ ОБЪЯВЛЕНИЙ -->
+            <!-- КАРТОЧКИ ТРАНСФЕРОВ -->
             <div id="productsList" th:unless="${#lists.isEmpty(products)}">
                 <div class="product-card" th:each="product : ${products}">
 
-                    <img th:src="@{${product.imagePath}}" th:alt="${product.title}" src="img/image 2.png" alt="Объявление">
+                    <img th:src="@{${product.imagePath}}" th:alt="${product.title}" src="img/image 2.png" alt="Трансфер">
 
                     <div class="product-info">
                         <h3 th:text="${product.title}">Название товара</h3>
@@ -135,7 +135,7 @@
                             <button type="submit" class="btn-yellow">Одобрить</button>
                         </form>
                         <form th:action="@{/admin/moderation/reject/{id}(id=${product.id})}" method="post"
-                              onsubmit="return confirm('Отклонить объявление?');">
+                              onsubmit="return confirm('Отклонить трансфер?');">
                             <button type="submit" class="btn-red">Отклонить</button>
                         </form>
                     </div>
