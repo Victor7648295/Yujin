@@ -13,7 +13,7 @@
     </parent>
 
     <groupId>org.marketplace</groupId>
-    <artifactId>MarketPlace</artifactId>
+    <artifactId>TrasferMarkt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>MarketPlace</name>
     <description>MarketPlace Application</description>
